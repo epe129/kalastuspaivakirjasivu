@@ -91,6 +91,7 @@
         <button type="submit">Lähetä</button>
         <br>
         <?php
+        //  Jos arvojoen syöttö epäonnistuu saa viestin 
         if (isset($_SESSION['errorMessageUser'])) {
             echo "
             <br/>

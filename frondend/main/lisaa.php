@@ -15,11 +15,12 @@ if (!isset($_SESSION['email'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lisää kalastustietoja</title>
     <style>
+        /* html css */
         html {
             background-image: url('../kuvat/tausta.jpg'); 
-            background-repeat: no-repeat; 
-            background-size: 100% 100%; 
-            height: 100%;
+            background-repeat: no-repeat;
+            background-attachment: fixed;  
+            background-size: cover;
         }
         /* div css */
         .main-div {
@@ -217,8 +218,8 @@ if (!isset($_SESSION['email'])) {
             </select>
             <br/>
             <button type="submit" class="button">Lähetä</button>
-            <!-- teksti onnistuko syöttö vai ei -->
             <?php
+            //  teksti onnistuko syöttö vai ei 
             if (isset($_SESSION['SuccesfullAdd'])) {
                 echo "
                 <br/>
@@ -259,6 +260,7 @@ if (!isset($_SESSION['email'])) {
             }
             ?>
         </form>
+        <!-- jos käyttäjä valitsee muu voi lisätä uuden arvon -->
         <div class="laji_muu_div" id="laji_muu_div">
             <form class="laji_muu_form" id="laji_muu_form" action="../data/handleMuuAdd.php" method="post">
                 <h2 style="margin-bottom: 10px;" id="h2_muu"></h2>
