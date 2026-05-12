@@ -14,7 +14,6 @@ DBNIMI = dbinfo.data["DBNIMI"]
 PORT = dbinfo.data["PORT"]
 HOST = dbinfo.data["HOST"]
 
-
 # yhteys tietokantaan
 connection = pymysql.connect(host=HOST, port=PORT, user=USER, password=PASSWORD, database=DBNIMI)
 cursor = connection.cursor()
