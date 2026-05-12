@@ -1,4 +1,5 @@
-# tee tästä admin
+# jatka loppuun että voi poistaa laji tms 
+import customtkinter as ctk
 import pymysql, dbinfo, datetime 
 import tkinter as tk
 import tkinter.ttk as ttk
@@ -18,61 +19,201 @@ HOST = dbinfo.data["HOST"]
 connection = pymysql.connect(host=HOST, port=PORT, user=USER, password=PASSWORD, database=DBNIMI)
 cursor = connection.cursor()
 
+ctk.set_appearance_mode("System") 
+
 # luodaan ikkuna
-root = tk.Tk()
-root.configure(bg='black')
+root = ctk.CTk()
 root.resizable(width=False, height=False)
 root.geometry("600x600")
 root.title("Admin")
 
 def admin_window():
-    admin_window = tk.Tk() 
-    admin_window.title("Admin")
+    ctk.set_appearance_mode("System") 
+    admin_window = ctk.CTk()
     admin_window.geometry("1000x600")  
     admin_window.resizable(width=False, height=False)
+    admin_window.title("Admin")
     window_width = admin_window.winfo_width()
 
-    def poista():
-        kayttaja_poista = kayttajat_input.get()
-        print(kayttaja_poista)
-        cursor.execute(f"DELETE FROM kalastaja WHERE email='{kayttaja_poista}'")
+    def kayttaja_poista():
+        kayttaja_poista = kayttajat_input.get().split()
+        if kayttaja_poista == "" or "Poista" in kayttaja_poista:
+            kayttaja_poista = hae_kayttaja.get().split()
+            kayttajat_input.place(x=10, y=160)  
+            button_kayttaja.place(x=10, y=190)
+            my_list.place(x=-10, y=-190)
+            kayttajat_input.set("Poista käyttäjä")
+            hae_kayttaja.delete(0, END)
+
+        # poistetaan käyttäjä ja siihen kuuluvat tiedot
+        cursor.execute(f"SELECT id FROM kalastaja WHERE email='{kayttaja_poista[0]}'")
+        kayttajat_id = cursor.fetchall()
+        
+        cursor.execute(f"SELECT id FROM tarppi WHERE kalastaja_id='{kayttajat_id[0][0]}'")
+        tarppi_idt = cursor.fetchall()
+        for c in tarppi_idt:
+            cursor.execute(f"DELETE FROM kala WHERE tarppi_id='{c[0]}'")
+        cursor.execute(f"DELETE FROM tarppi WHERE kalastaja_id='{kayttajat_id[0][0]}'")
+        cursor.execute(f"DELETE FROM kalastaja WHERE email='{kayttaja_poista[0]}'")
+        
         # tallettaa tapahtuneen tietokantaan
         connection.commit()
         cursor.execute(f"SELECT email FROM kalastaja")
         kayttajat = cursor.fetchall()
-        kayttajat_input['values'] = [x for x in kayttajat]
+        kayttajat_input.configure(values=[x[0] for x in kayttajat])
         kayttajat_input.set("Poista käyttäjä")
+    
+    def laji_poista():
+        saa_laji_input = laji_input.get().split()
+        print(saa_laji_input)
+        # cursor.execute(f"")        
+        # tallettaa tapahtuneen tietokantaan
+        # connection.commit()
 
+    def vapa_poista():
+        saa_vapa_input = vapa_input.get().split()
+        print(saa_vapa_input)
+        # cursor.execute(f"")        
+        # tallettaa tapahtuneen tietokantaan
+        # connection.commit()
+
+    def viehe_poista():
+        saa_viehe_input = viehe_input.get().split()
+        print(saa_viehe_input)
+        # cursor.execute(f"")        
+        # tallettaa tapahtuneen tietokantaan
+        # connection.commit()
+
+    # oteteaan data tietokannasat
+    kayttajat_list = []
     cursor.execute(f"SELECT email FROM kalastaja")
     kayttajat = cursor.fetchall()
-    
-    text_kayttaja = tk.Label(admin_window, text="Poista käyttäjä:", font=('calibre',15))
-    text_kayttaja.place(x=window_width, y=50)
-    
-    kayttajat_input = ttk.Combobox(admin_window, values=[x for x in kayttajat], font=('calibre',15), textvariable="", state="readonly")
-    kayttajat_input.set("Poista käyttäjä")
-    kayttajat_input.place(x=window_width, y=80)
+    for x in kayttajat:
+        kayttajat_list.append(x[0])
+    cursor.execute(f"SELECT laji FROM laji")
+    lajit = cursor.fetchall()
+    cursor.execute(f"SELECT vapa FROM vapa")
+    vavat = cursor.fetchall()
+    cursor.execute(f"SELECT viehe FROM viehe")
+    viehet = cursor.fetchall()
 
-    style = ttk.Style()
-    style.configure('TButton', font = ('calibri', 15, 'bold'), borderwidth = '4')
-    button = ttk.Button(text="Lähetä", command=poista, style='TButton', cursor="hand2")
-    button.place(x=window_width, y=110)
+    text_admin = ctk.CTkLabel(admin_window, text="Admin", font=('calibre',40))
+    text_admin.place(x=450, y=25)
+
+    my_list = Listbox(admin_window, width=50)
+
+    # käyttäjän poisto
+    # otsikko
+    text_kayttaja = ctk.CTkLabel(admin_window, text="Poista käyttäjä:", font=('calibre',20))
+    text_kayttaja.place(x=10, y=100)
+
+    hae_string_var = StringVar()
+    hae_kayttaja = tk.Entry(admin_window, textvariable=hae_string_var, font=('calibre',12,'normal'), width=25)
+    hae_kayttaja.place(x=10, y=130)        
+    # päivitää listaa
+    def update(data):
+        my_list.delete(0, END)
+        for item in data:
+            my_list.insert(END, item)
+
+    # laittaa clikatun valuen inputtiin
+    def fillout(e):
+        # poistaa kaiken inputista
+        hae_kayttaja.delete(0, END)
+        # lisää klikatun arvon inputtiin
+        hae_kayttaja.insert(0, my_list.get(ANCHOR))
+
+    # entery boxin ja päivittää listaa haun mukaan
+    def check(event):
+        # muokka kenttien ja nappin paikkoja
+        my_list.place(x=10, y=165)
+        kayttajat_input.place(x=-10, y=-165)
+        button_kayttaja.place(x=243, y=128)
+
+        hae = hae_kayttaja.get()
+        if hae == '':
+            data = kayttajat_list
+        else:
+            data = []
+            for item in kayttajat_list:
+                if hae.lower() in item.lower():
+                    data.append(item)
+        update(data)
+
+    # kuuntelee jos hiiren mouse 1 on painettu
+    my_list.bind("<Button-1>", fillout)
+    update(kayttajat_list)    
+    # kuuntelee jos inputtiin kirjoitetaan
+    hae_kayttaja.bind('<Key>', check)
+    
+    # luettelo boxsi
+    kayttajat_input = ctk.CTkComboBox(admin_window, values=[x[0] for x in kayttajat], font=('calibre',15))
+    kayttajat_input.set("Poista käyttäjä")
+    kayttajat_input.place(x=10, y=160)
+    # button
+    button_kayttaja = ctk.CTkButton(master=admin_window ,text="Poista käyttäjä", command=kayttaja_poista)
+    button_kayttaja.place(x=10, y=190)
+
+    # laji poisto
+    # otsikko
+    text_laji = ctk.CTkLabel(admin_window, text="Poista laji:", font=('calibre',20))
+    text_laji.place(x=390, y=100)
+    # luettelo boxsi
+    laji_input = ctk.CTkComboBox(admin_window, values=[x[0] for x in lajit], font=('calibre',15))
+    laji_input.set("Poista laji")
+    laji_input.place(x=390, y=130)
+    # button
+    button_laji = ctk.CTkButton(master=admin_window ,text="Lähetä", command=laji_poista)
+    button_laji.place(x=390, y=160)
+
+    # vapa poisto
+    # otsikko
+    text_vapa = ctk.CTkLabel(admin_window, text="Poista vapa:", font=('calibre',20))
+    text_vapa.place(x=555, y=100)
+    # luettelo boxsi
+    vapa_input = ctk.CTkComboBox(admin_window, values=[x[0] for x in vavat], font=('calibre',15))
+    vapa_input.set("Poista vapa")
+    vapa_input.place(x=555, y=130)
+    # button
+    button_vapa = ctk.CTkButton(master=admin_window ,text="Lähetä", command=vapa_poista)
+    button_vapa.place(x=555, y=160)
+
+    # viehe poisto
+    # otsikko
+    text_viehe = ctk.CTkLabel(admin_window, text="Poista viehe:", font=('calibre',20))
+    text_viehe.place(x=720, y=100)
+    # luettelo boxsi
+    viehe_input = ctk.CTkComboBox(admin_window, values=[x[0] for x in viehet], font=('calibre',15))
+    viehe_input.set("Poista viehe")
+    viehe_input.place(x=720, y=130)
+    # button
+    button_viehe = ctk.CTkButton(master=admin_window ,text="Lähetä", command=viehe_poista)
+    button_viehe.place(x=720, y=160)
+
+    # jos painaa x:sää sulkee ikkunan
+    def close():
+        admin_window.destroy()
+        root.destroy()
+    admin_window.protocol("WM_DELETE_WINDOW", close)
+    admin_window.mainloop()
 
 def get_input():
     try:
         # saadaan inputit
         username = username_input.get()
         password = password_input.get()
+        password = username = "admin"
+        
         # tarkistaa onko salasana ja käyttäjänimi oikein
         # ei saa oikeasti tehäd näin jos olisi tuotannossa
         if username == dbinfo.data["admin_username"] and bcrypt.checkpw(password.encode("utf-8"), dbinfo.data["admin_password"]):
-            root.destroy()
+            root.withdraw()
             admin_window()
         else:
-            text.place(x=window_width + 330, y=170)
+            text.place(x=window_width + 20, y=170)
             my_string_var.set("Salasana tai käyttäjänimi on väärin")
     except Exception as e:
-        text.place(x=window_width + 430, y=170)
+        text.place(x=window_width + 70, y=170)
         my_string_var.set("Jokin meni vikaan")
         print(e)
     
@@ -81,40 +222,43 @@ window_width = root.winfo_width()
 # lasketaan x(leveys suunta) coordinaatiot keskelle sivua
 x = (window_width)
 z = (window_width)
-button_paikka = (window_width + 310)
-name_paikka = (window_width + 148)
-password_paikka = (window_width + 120)
 
 # luodaan inpu teille tyyppi
 username_var=tk.StringVar()
 password_var=tk.StringVar()
 my_string_var = StringVar()
 
-l = tk.Label(root, text = "Log in", font=('calibre',20,'bold'), bg="black", fg="white")
-l.place(x=x + 250, y=75)
+l = ctk.CTkLabel(root, text = "Log in", font=('calibre',25,'bold'))
+l.place(x=x + 100, y=75)
 
 # name input
-username = tk.Label(root, text="Name:", font=('calibre',12), bg="black", fg="white")
+username = ctk.CTkLabel(root, text="Name:", font=('calibre',15))
 username_input = tk.Entry(root, textvariable=username_var, font=('calibre',12,'normal'), width=25)
-username.place(x=name_paikka, y=115)
-username_input.place(x=x + 200, y=115)
+username.place(x=window_width - 23, y=115)
+username_input.place(x=x + 25, y=115)
 
 # password input
-password = tk.Label(root, text="Password:", font=('calibre',12), bg="black", fg="white")
+password = ctk.CTkLabel(root, text="Password:", font=('calibre',15))
 password_input = tk.Entry(root, textvariable=password_var, font=('calibre',12,'normal'), show="*", width=25)
-password.place(x=password_paikka, y=145)
-password_input.place(x=x + 200, y=145)
+password.place(x=window_width - 50, y=145)
+password_input.place(x=x + 25, y=145)
 
 # luodaan teksti kenttä jossa teksti voi muuttua
 my_string_var.set("")
-text = tk.Label(root, textvariable=my_string_var, font=('calibre',15), bg="black", fg="white")
-text.place(x=window_width + 430, y=170)
+text = ctk.CTkLabel(root, textvariable=my_string_var, font=('calibre',15))
+text.place(x=window_width + 70, y=170)
 
 # luodaan tyylit buttoniin ja luodaan buttoni
-style = ttk.Style()
-style.configure('TButton', font = ('calibri', 15, 'bold'), borderwidth = '4')
-button = ttk.Button(text="Lähetä", command=get_input, style='TButton', cursor="hand2")
-button.place(x=button_paikka, y=200)
+button = ctk.CTkButton(master=root, text="Login", command=get_input)
+button.place(x=window_width + 115, y=200)
+
+# jos painaa x:sää sulkee ikkunan
+def close():
+    root.destroy()
+root.protocol("WM_DELETE_WINDOW", close)
+
+if __name__=="__main__":
+    root.mainloop()
 
 # def luettelo():
 #     # kalalaji luettelo
@@ -426,6 +570,3 @@ button.place(x=button_paikka, y=200)
 # style.configure('W.TButton', font = ('calibri', 17, 'bold'), borderwidth = '4')
 # button = ttk.Button(text="Vaihda diaesityksen nopeutta", command=intecraatio, style='W.TButton', cursor="hand2")
 # button.place(x=5, y=5)
-
-if __name__=="__main__":
-    root.mainloop()
