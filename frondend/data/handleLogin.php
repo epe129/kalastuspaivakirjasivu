@@ -6,9 +6,17 @@ $name = $email = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
     unset( $_SESSION['errorMessageUser'] );
+    unset( $_SESSION['InvalidEmail'] );
     // saa arvot
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION["InvalidEmail"] = true;
+        header("Location: ../login/index.php"); 
+        exit;
+    }
+
     // tarkistaa ettei arvot oo tyhjiä
     if (empty($email) or empty($password)) {
         header("Location: ../login/index.php"); 

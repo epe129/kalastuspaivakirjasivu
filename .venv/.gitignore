@@ -1,10 +1,6 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
 /Include
 /lib
 /Scripts
 /pyvenv.cfg
-/muista.txt
-/config.py
-.env
 __pycache__
 /dbinfo.py

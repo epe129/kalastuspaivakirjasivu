@@ -8,11 +8,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
     unset( $_SESSION['errorMessage'] );
     unset( $_SESSION['AlreadyExist'] );
+    unset( $_SESSION['InvalidEmail'] );
+    unset( $_SESSION['InvalidName'] );
+    unset( $_SESSION['InvalidPassword'] );
     // saa arvot
     $name = htmlspecialchars($_POST["name"]);
     $email = htmlspecialchars($_POST["email"]);
+    $password = htmlspecialchars($_POST["password"]);
+    
     // hashaa salasanan
-    $hash_password = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT);
+    $hash_password = password_hash($password, PASSWORD_DEFAULT);
     // tarkistetaan onko sähköposti tietokannassa   
     $kysely_email = $conn->prepare("SELECT email FROM kalastaja WHERE email = ?");
     $kysely_email->bind_param("s", $email);
@@ -25,8 +30,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php"); 
         exit;
     }
+
+    // tarkistaa että nimi sisältää vaan kirjaimia ja numeroita
+    if (!preg_match("/^[a-zA-Z0-9äöåÄÖÅ]+$/u",$name)) {
+        $_SESSION["InvalidName"] = true;
+        header("Location: ../index.php"); 
+        exit;
+    }
     
-    if (empty($name) or empty($email) or empty(htmlspecialchars($_POST["password"]))) {
+    // tarkistaa ettei salasana ole liian lyhyt
+    if (strlen($password) <=  7) {
+        $_SESSION["InvalidPassword"] = true;
+        header("Location: ../index.php"); 
+        exit;
+    }
+
+    // tarkistaa että email on valid
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION["InvalidEmail"] = true;
+        header("Location: ../index.php"); 
+        exit;
+    }
+
+    if (empty($name) or empty($email) or empty($password)) {
         // jos jokin arvo on tyhjä
         header("Location: ../index.php"); 
         exit;

@@ -89,7 +89,7 @@
         <h1>Log in</h1>
         <br>
         <label>email</label>
-        <input type="email" name="email" require>
+        <input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" require>
         <br>
         <label>password</label>
         <input type="password" name="password" require>
@@ -104,6 +104,12 @@
             <span>Sähköposti tai salasanasi on väärin</span>
             <br/>
             ";
+        }
+        if (isset($_SESSION['InvalidEmail'])) {
+            echo "
+            <br/>
+            <span>Sähköposti ei ole kelvollinen</span>
+            <br/>";
         }
         ?>
         <br>
