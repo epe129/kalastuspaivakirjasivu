@@ -2,3 +2,5 @@ admin
 lisää vielä että sallii vaa tietyt merkit formeissa
 tarkista vielä lommeiken turvallisuus
 tee log out button/ käyttäjä näkee oma nimen navbarissa
+
+muista kommentoida

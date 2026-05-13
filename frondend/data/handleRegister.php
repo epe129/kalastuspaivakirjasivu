@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php"); 
         exit;
     }
+    
     if (empty($name) or empty($email) or empty(htmlspecialchars($_POST["password"]))) {
         // jos jokin arvo on tyhjä
         header("Location: ../index.php"); 
