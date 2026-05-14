@@ -20,9 +20,6 @@ ctk.set_appearance_mode("System")
 root = ctk.CTk()
 root.geometry("1000x600")
 root.resizable(width=False, height=False)
-# root.minsize(1000, 600)
-# root.maxsize(1000, 600)
-# root.update_idletasks()
 root.title("Admin")
 
 def admin_window():
@@ -368,15 +365,13 @@ def admin_window():
     # ------------------------------------------------------------------ #
 
     # koko ikkunan otsikko
-    text_admin = ctk.CTkLabel(container, text="Admin", font=('calibre',40))
-    text_admin.place(x=450, y=25)
+    text_admin = ctk.CTkLabel(container, text="Admin", font=('calibre',40)).place(x=450, y=25)
 
     # ------------------------------------------------------------------ #
 
     # alkaa käyttäjä 
     # otsikko
-    text_kayttaja = ctk.CTkLabel(container, text="Poista käyttäjä:", font=('calibre',20))
-    text_kayttaja.place(x=210, y=100)
+    text_kayttaja = ctk.CTkLabel(container, text="Poista käyttäjä:", font=('calibre',20)).place(x=210, y=100)
 
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     kayttajat_list_box = CTkListbox(container, width=200)
@@ -406,8 +401,7 @@ def admin_window():
 
     # alkaa laji
     # otsikko
-    text_laji = ctk.CTkLabel(container, text="Poista laji:", font=('calibre',20))
-    text_laji.place(x=590, y=100)
+    text_laji = ctk.CTkLabel(container, text="Poista laji:", font=('calibre',20)).place(x=590, y=100)
     
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     laji_list_box = CTkListbox(container, width=200)
@@ -526,19 +520,16 @@ password_var= StringVar()
 my_string_var = StringVar()
 
 # otsikko teksti
-l = ctk.CTkLabel(root, text = "Log in", font=('calibre',35,'bold'))
-l.place(x=465, y=75)
+l = ctk.CTkLabel(root, text = "Log in", font=('calibre',35,'bold')).place(x=465, y=75)
 
 # name input
-username = ctk.CTkLabel(root, text="Name:", font=('calibre',20))
+username = ctk.CTkLabel(root, text="Name:", font=('calibre',20)).place(x=385, y=150)
 username_input = ctk.CTkEntry(root, textvariable=username_var, font=('calibre',20,'normal'), width=200)
-username.place(x=385, y=150)
 username_input.place(x=450, y=150)
 
 # password input
-password = ctk.CTkLabel(root, text="Password:", font=('calibre',20))
+password = ctk.CTkLabel(root, text="Password:", font=('calibre',20)).place(x=350, y=200)
 password_input = ctk.CTkEntry(root, textvariable=password_var, font=('calibre',20,'normal'), show="*", width=200)
-password.place(x=350, y=200)
 password_input.place(x=450, y=200)
 
 # luodaan teksti kenttä jossa teksti voi muuttua
@@ -547,8 +538,7 @@ text = ctk.CTkLabel(root, textvariable=my_string_var, font=('calibre',20))
 text.place(x=465, y=235)
 
 # luodaan tyylit buttoniin ja luodaan buttoni
-button = ctk.CTkButton(master=root, text="Login", command=get_input)
-button.place(x=510, y=270)
+button = ctk.CTkButton(master=root, text="Login", command=get_input).place(x=510, y=270)
 
 # jos painaa x:sää sulkee ikkunan
 def close():
