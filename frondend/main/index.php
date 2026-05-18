@@ -2,7 +2,7 @@
 <?php
 session_start();
 // Saadaan yhteys tietokantaan 
-$configs = include('../data/db_connection.php');
+include('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut
 if (!isset($_SESSION['email'])) {
     header("Location: ../index.php");

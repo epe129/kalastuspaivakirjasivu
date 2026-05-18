@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Saadaan yhteys tietokantaan 
-$configs = include('../data/db_connection.php');
+include('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut
 if (!isset($_SESSION['email'])) {
     header("Location: ../index.php");
@@ -185,7 +185,7 @@ if (!isset($_SESSION['email'])) {
             </select>
             <br/>
             <label class="label" for="pituus">Pituus (cm):</label>
-            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0" id="pituus" name="pituus" placeholder="Kalan pituus" class="input" required>
+            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.01" id="pituus" name="pituus" placeholder="Kalan pituus" class="input" required>
             <br/>        
             <label class="label" for="paino">Paino (kg):</label>
             <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.01" id="paino" name="paino" placeholder="Kalan paino" class="input" required>                 
@@ -241,41 +241,11 @@ if (!isset($_SESSION['email'])) {
             <button type="submit" class="button">Lähetä</button>
             <?php
             //  teksti onnistuko syöttö vai ei 
-            if (isset($_SESSION['SuccesfullAdd'])) {
+            if (isset($_SESSION['MessageAdd'])) {
+                $text = ucfirst($_SESSION['Text']);
                 echo "
                 <br/>
-                <span style='font-size: 1.5rem;'>Tiedot lisättiin onnistuneesti</span>
-                <br/>
-                ";
-            }
-            if (isset($_SESSION['ErrorAdd'])) {
-                echo "
-                <br/>
-                <span style='font-size: 1.5rem;'>Tietojen lisääminen epäonnistui</span>
-                <br/>
-                ";
-            }
-            if (isset($_SESSION['SuccesfullAddMuu'])) {
-                $text = $_SESSION["TextMuu"];
-                echo "
-                <br/>
-                <span style='font-size: 1.5rem;'>Uusi $text lisättiin onnistuneesti</span>
-                <br/>
-                ";
-            }
-            if (isset($_SESSION['ErrorAdd'])) {
-                $text = $_SESSION["TextMuu"];
-                echo "
-                <br/>
-                <span style='font-size: 1.5rem;'>Uuden $text lisääminen epäonnistui</span>
-                <br/>
-                ";
-            }
-            if (isset($_SESSION['AlreadyExistMuu'])) {
-                $text = $_SESSION["TextMuu"];
-                echo "
-                <br/>
-                <span style='font-size: 1.5rem;'>$text on jo tietokannassa</span>
+                <span style='font-size: 1.5rem;'>$text</span>
                 <br/>
                 ";
             }

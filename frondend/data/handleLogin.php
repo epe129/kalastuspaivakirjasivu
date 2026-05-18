@@ -1,7 +1,7 @@
 <?php
 session_start();
 // yhteyden tietokantaan
-$db = include('db_connection.php');
+include('db_connection.php');
 $name = $email = $db_password = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
@@ -10,14 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // saa arvot
     $email = stripslashes(trim(htmlspecialchars($_POST["email"])));
     $password = stripslashes(trim(htmlspecialchars($_POST["password"])));
-
-    // tarkistaa ettei salasana ole liian lyhyt
-    // if (strlen($password) <=  7) {
-        // $_SESSION['errorMessageLogin'] = true;
-        // $_SESSION['errorTextLogin'] = "Salasanassa pitää olla vähintää 8 merkkiä";
-        // header("Location: ../login/index.php"); 
-        // exit;
-    // }
 
     // tarkistaa että email on valid
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -64,8 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit;
             }
         }
-    } else {
-        header("Location: ../login/index.php"); 
-        exit;
-    }
+    } 
+    header("Location: ../login/index.php"); 
+    exit;
 ?>

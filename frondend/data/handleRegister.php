@@ -2,7 +2,7 @@
 <?php
 session_start();
 // yhteyden tietokantaan
-$db = include('db_connection.php');
+include('db_connection.php');
 $name = $email = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
@@ -77,8 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit;
             }
         }
-    } else {
-        header("Location: ../index.php"); 
-        exit;
-    }
+    } 
+    header("Location: ../index.php"); 
+    exit;
 ?>

@@ -117,7 +117,7 @@
             <?php
             //  Jos arvojoen syöttö epäonnistuu saa viestin 
             if (isset($_SESSION['errorMessageRegister']) and isset($_SESSION['errorTextRegister'])) {
-                $text = $_SESSION['errorTextRegister'];
+                $text = ucfirst($_SESSION['errorTextRegister']);
                 echo "
                 <br/>
                 <span>$text</span>

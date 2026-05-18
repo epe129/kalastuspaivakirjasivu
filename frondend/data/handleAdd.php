@@ -1,24 +1,34 @@
 <?php
 session_start();
 // yhteyden tietokantaan
-$db = include('db_connection.php');
+include('db_connection.php');
 $laji = $pituus = $paino = $paikka = $aika = $viehe = $vapa = "";
 $kalastaja_id = $viehe_id = $vapa_id = $tarppi_id = $laji_id = 0;
 $tarppi_tiedot_lisaamien = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
-  unset( $_SESSION['SuccesfullAdd'] );
-  unset( $_SESSION['ErrorAdd'] );
+  unset( $_SESSION['MessageAdd'] );
+  unset( $_SESSION['Text'] );
   // saa arvot
-  $laji = htmlspecialchars($_POST["laji"]);
-  $pituus = htmlspecialchars($_POST["pituus"]);
-  $paino = htmlspecialchars($_POST["paino"]);
-  $paikka = htmlspecialchars($_POST["paikka"]);
-  $aika = htmlspecialchars($_POST["aika"]);
-  $viehe = htmlspecialchars($_POST["viehe"]);
-  $vapa = htmlspecialchars($_POST["vapa"]);
+  $laji = stripslashes(trim(htmlspecialchars($_POST["laji"])));
+  $pituus = stripslashes(trim(htmlspecialchars($_POST["pituus"])));
+  $paino = stripslashes(trim(htmlspecialchars($_POST["paino"])));
+  $paikka = stripslashes(trim(htmlspecialchars($_POST["paikka"])));
+  $aika = stripslashes(trim(htmlspecialchars($_POST["aika"])));
+  $viehe = stripslashes(trim(htmlspecialchars($_POST["viehe"])));
+  $vapa = stripslashes(trim(htmlspecialchars($_POST["vapa"])));
+
+  // tarkistaa että inputit sisältää vain sille salittuja merkkejä
+  if (!preg_match("/^[a-zA-ZäöåÄÖÅ]+$/u", $laji) or !preg_match("/^[0-9.]+$/u", $pituus) or !preg_match("/^[0-9.]+$/u", $paino) or !preg_match("/^[a-zA-Z0-9äöåÄÖÅ]+$/u", $paikka) or !preg_match("/^[a-zA-ZäöåÄÖÅ]+$/u", $viehe) or !preg_match("/^[a-zA-ZäöåÄÖÅ]+$/u", $vapa)) {
+    $_SESSION["MessageAdd"] = true;
+    $_SESSION['Text'] = "syötteessä ei saa olla erikoismerkkejä";
+    header("Location: ../main/lisaa.php"); 
+    exit;
+  }
+
   if (empty($laji) or empty($pituus) or empty($paino) or empty($paikka) or empty($aika) or empty($viehe) or empty($vapa)) {
-    $_SESSION["ErrorAdd"] = true;
+    $_SESSION["MessageAdd"] = true;
+    $_SESSION['Text'] = "Jokin kohta oli tyhjä";
     header("Location: ../main/lisaa.php"); 
     exit;
     } else {
@@ -59,7 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($lisaa_tarppi->execute() === TRUE) {
       $tarppi_tiedot_lisaamien = TRUE;
     } else {
-      $_SESSION["ErrorAdd"] = true;
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Tietojen lisääminen epäonnistui";
       header("Location: ../main/lisaa.php"); 
       exit;
     }
@@ -70,17 +81,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lisaa_kala->bind_param("iiii", $tarppi_id, $pituus, $paino, $laji_id);
     // tarkistaa että molemmat syötöt onnistui
     if ($lisaa_kala->execute() === TRUE and $tarppi_tiedot_lisaamien === TRUE) {
-      $_SESSION["SuccesfullAdd"] = true;
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Tiedot lisättiin onnistuneesti";
       header("Location: ../main/lisaa.php"); 
       exit;
       } else {
-        $_SESSION["ErrorAdd"] = true;
+        $_SESSION["MessageAdd"] = true;
+        $_SESSION['Text'] = "Tietojen lisääminen epäonnistui";
         header("Location: ../main/lisaa.php"); 
         exit;
       }
     } 
-  } else {
-    header("Location: ../main/lisaa.php"); 
-    exit;
-  }
+  } 
+  header("Location: ../main/lisaa.php"); 
+  exit;
 ?>

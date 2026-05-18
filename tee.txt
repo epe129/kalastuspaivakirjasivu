@@ -1,38 +1,6 @@
 lisää vielä että sallii vaa tietyt merkit formeissa
 PHP CSRF
-korjaa handlelogin nimen saanti
-korjaa nää:
-if (isset($_SESSION['errorMessage'])) {
-                echo "
-                <br/>
-                <span>Jokin meni pieleen</span>
-                <br/>";
-            }
-            if (isset($_SESSION['AlreadyExist'])) {
-                echo "
-                <br/>
-                <span>Sähköposti on jo käytössä</span>
-                <br/>";
-            }
-            if (isset($_SESSION['InvalidEmail'])) {
-                echo "
-                <br/>
-                <span>Sähköposti ei ole kelvollinen</span>
-                <br/>";
-            }
-            if (isset($_SESSION['InvalidName'])) {
-                echo "
-                <br/>
-                <span>Nimi ei ole kelvollinen, vain numerot ja kirjaimet salittu</span>
-                <br/>";
-            }
-            if (isset($_SESSION['InvalidPassword'])) {
-                echo "
-                <br/>
-                <span>Salasanassa pitää olla vähintää 8 merkkiä</span>
-                <br/>";
-            }
-
 tarkista vielä lommeiken turvallisuus
 admin optimointia/korjauksia
 muista kommentoida
+korjaaa paskat koodit

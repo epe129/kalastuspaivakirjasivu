@@ -99,7 +99,7 @@
         <?php
         //  Jos arvojoen syöttö epäonnistuu saa viestin 
         if (isset($_SESSION['errorMessageLogin']) and isset($_SESSION['errorTextLogin'])) {
-            $text = $_SESSION['errorTextLogin'];
+            $text = ucfirst($_SESSION['errorTextLogin']);
             echo "
             <br/>
             <span>$text</span>
