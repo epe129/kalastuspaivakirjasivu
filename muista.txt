@@ -526,3 +526,34 @@ def esitys():
     return render_template('esitys.html', text=text)
 if __name__=="__main__":
     app.run()
+
+    $saa_kalastaja_id = $conn->prepare("SELECT id FROM kalastaja WHERE email = ?");
+  $saa_kalastaja_id->bind_param("s", $_SESSION["email"]);
+  $saa_kalastaja_id->execute();
+  $saa_kalastaja_id->bind_result($kalastaja_id);
+  $saa_kalastaja_id->fetch();
+  $saa_kalastaja_id->close();
+  echo $kalastaja_id;
+    
+  $saa_vapa_id = $conn->prepare("SELECT id FROM vapa WHERE vapa = ?");
+  $saa_vapa_id->bind_param("s", $vapa);
+  $saa_vapa_id->execute();
+  $saa_vapa_id->bind_result($vapa_id);
+  $saa_vapa_id->fetch();
+  $saa_vapa_id->close();
+
+    
+  $saa_viehe_id = $conn->prepare("SELECT id FROM viehe WHERE viehe = ?");
+  $saa_viehe_id->bind_param("s", $viehe);
+  $saa_viehe_id->execute();
+  $saa_viehe_id->bind_result($viehe_id);
+  $saa_viehe_id->fetch();
+  $saa_viehe_id->close();
+
+    
+  $saa_laji_id = $conn->prepare("SELECT id FROM laji WHERE laji = ?");
+  $saa_laji_id->bind_param("s", $laji);
+  $saa_laji_id->execute();
+  $saa_laji_id->bind_result($laji_id);
+  $saa_laji_id->fetch();
+  $saa_laji_id->close();

@@ -1,6 +1,3 @@
-# muista asentaa: 
-# pip install CTkListbox
-# importataan kaikki mitä tarvii
 import bcrypt
 import customtkinter as ctk
 import pymysql, dbinfo
@@ -92,6 +89,10 @@ def admin_window():
             viehe_input.place(x=590, y=310)
             button_viehe.place(x=590, y=340)
             viehe_list_box.place(x=-210, y=-190)
+        # poistetaan laji ja siihen kuuluvat tiedot
+        cursor.execute(f"SELECT id FROM laji WHERE laji='{saa_laji_input[0]}'")
+        laji_id = cursor.fetchall()
+        cursor.execute(f"DELETE FROM kala WHERE laji_id ='{laji_id}'")        
         cursor.execute(f"DELETE FROM laji WHERE laji='{saa_laji_input[0]}'")        
         # tallettaa tapahtuneen tietokantaan
         connection.commit()

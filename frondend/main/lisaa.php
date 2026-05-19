@@ -7,6 +7,13 @@ if (!isset($_SESSION['email'])) {
     header("Location: ../index.php");
     exit();
 }
+// CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
+if (empty($_SESSION['csrf_token_li'])) {
+    $_SESSION['csrf_token_li'] = bin2hex(random_bytes(32));
+}
+if (empty($_SESSION['csrf_token_li_muu'])) {
+    $_SESSION['csrf_token_li_muu'] = bin2hex(random_bytes(32));
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,7 +102,7 @@ if (!isset($_SESSION['email'])) {
             font-size: 1.2rem;
             padding: 5px;
         }
-        /* select css eli kalalaji valikon css */
+        /* select css eli valikon css */
         select {
             border: 1px solid #a9a9a9;
             background: #eeeeee;
@@ -199,6 +206,7 @@ if (!isset($_SESSION['email'])) {
             <label class="label" for="viehe">Viehe:</label>
             <select id="viehe" name="viehe" required>
                 <option>Valitse viehe</option>
+                <!-- saa viehe vaihto ehdot tietokannasta -->
                 <?php
                     $sql = "SELECT viehe FROM viehe";
                     $tulos = $conn->query($sql);
@@ -212,6 +220,7 @@ if (!isset($_SESSION['email'])) {
                         }
                     }
                 ?>
+                <!-- jotta muu on viimeinen value -->
                 <option value="muu">
                     <span>muu</span>
                 </option>
@@ -220,6 +229,7 @@ if (!isset($_SESSION['email'])) {
             <label class="label" for="vapa">Vapa:</label>
             <select id="vapa" name="vapa" required>
                 <option value="">Valitse vapa</option>
+                <!-- saa vapa vaihto ehdot tietokannasta -->
                 <?php
                     $sql = "SELECT vapa FROM vapa";
                     $tulos = $conn->query($sql);
@@ -250,6 +260,7 @@ if (!isset($_SESSION['email'])) {
                 ";
             }
             ?>
+            <input type="hidden" name="csrf_token_li" value="<?php echo $_SESSION['csrf_token_li'] ?>">   
         </form>
         <!-- jos käyttäjä valitsee muu voi lisätä uuden arvon -->
         <div class="laji_muu_div" id="laji_muu_div">
@@ -257,6 +268,7 @@ if (!isset($_SESSION['email'])) {
                 <h2 style="margin-bottom: 10px;" id="h2_muu"></h2>
                 <input type="text" id="muu" placeholder="Muu mikä" maxlength="24" style="font-size: 1.5rem;">
                 <button type="submit" class="button_muu">Lähetä</button>
+                <input type="hidden" name="csrf_token_li_muu" value="<?php echo $_SESSION['csrf_token_li_muu'] ?>">   
             </form>    
         </div>
     </div>

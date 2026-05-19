@@ -15,7 +15,7 @@ document.getElementsByName("viehe")[0].addEventListener('change', Tee);
 document.getElementsByName("vapa")[0].addEventListener('change', Tee);
 
 function Tee(){
-    // saa arvon
+    // saa arvot
     let arvo_laji = document.getElementById("KalaLaji").value;
     let arvo_viehe = document.getElementById("viehe").value;
     let arvo_vapa = document.getElementById("vapa").value;

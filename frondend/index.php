@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+// CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
+if (empty($_SESSION['csrf_token_r'])) {
+    $_SESSION['csrf_token_r'] = bin2hex(random_bytes(32));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +18,6 @@
             background-size: cover;
         }
         body {
-            /* background-color: #f4f4f4; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -126,6 +130,7 @@
             ?>
             <br>
             <a href="./login/index.php">Log in</a>
+            <input type="hidden" name="csrf_token_r" value="<?php echo $_SESSION['csrf_token_r'] ?>">
         </form>
     </div>
 </body>

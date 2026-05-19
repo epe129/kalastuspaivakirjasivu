@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start();
+// CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
+if (empty($_SESSION['csrf_token_l'])) {
+    $_SESSION['csrf_token_l'] = bin2hex(random_bytes(32));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +18,6 @@
             background-size: cover;
         }
         body {
-            /* background-color: #f4f4f4; */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -78,10 +82,6 @@
             color: black;
             cursor: pointer;
         }
-
-        h2 {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -109,6 +109,7 @@
         ?>
         <br>
         <a href="../index.php">Register</a>
+        <input type="hidden" name="csrf_token_l" value="<?php echo $_SESSION['csrf_token_l'] ?>">
     </form>
 </body>
 </html>

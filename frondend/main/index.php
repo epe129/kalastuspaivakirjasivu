@@ -85,7 +85,7 @@ $kysely_id->close();
                 border-radius: 5px;
                 width: 100%;
             }
-            
+
             .a {
                 display: block;
                 color: white;
@@ -103,7 +103,7 @@ $kysely_id->close();
                 color: black;
                 text-decoration: none;
             }
-            
+
             .logout:hover {
                 background-color: #dbdbdb;
             } 
@@ -123,6 +123,7 @@ $kysely_id->close();
             </div>
         </li>
     </ul>
+    <!-- datan näyttö -->
     <?php
     echo "<h1 class='title'>Kalastustietoja</h1>";
     echo "<div class='main'>";

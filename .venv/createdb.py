@@ -9,7 +9,7 @@ except Exception as e:
 def db():
     # luodaan taulut
     try:
-        cursor.execute("CREATE TABLE IF NOT EXISTS integraatiot (diaNopeus INT)")
+        # cursor.execute("CREATE TABLE IF NOT EXISTS integraatiot (diaNopeus INT)")
         cursor.execute("CREATE TABLE IF NOT EXISTS KALASTAJA ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE, nimi VARCHAR(45) NOT NULL, email VARCHAR(45) NOT NULL UNIQUE, pword VARCHAR(255) NOT NULL);")
         cursor.execute("CREATE TABLE IF NOT EXISTS VIEHE ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL  UNIQUE, viehe TEXT NOT NULL);")
         cursor.execute("CREATE TABLE IF NOT EXISTS VAPA ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL  UNIQUE, vapa TEXT NOT NULL);")

@@ -4,10 +4,18 @@ session_start();
 // yhteyden tietokantaan
 include('db_connection.php');
 $name = $email = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    // tarkistaa onko tokeni asetettu ja onko tokenit samatat session ja input saanissa
+    if (!isset($_POST['csrf_token_r']) || !isset($_SESSION['csrf_token_r']) || !hash_equals($_SESSION['csrf_token_r'], $_POST['csrf_token_r'])) {
+        die('CSRF token validation failed');
+    }
+
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
     unset($_SESSION['errorMessageRegister']);
     unset($_SESSION['errorTextRegister']);
+
     // saa arvot
     $name = stripslashes(trim(htmlspecialchars($_POST["name"])));
     $email = stripslashes(trim(htmlspecialchars($_POST["email"])));
@@ -15,14 +23,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     // hashaa salasanan
     $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
     // tarkistetaan onko sähköposti tietokannassa   
     $kysely_email = $conn->prepare("SELECT email FROM kalastaja WHERE email = ?");
     $kysely_email->bind_param("s", $email);
     $kysely_email->execute();
     $kysely_email->store_result();
-
+    
+    // jos sähköposti on jo olemassa
     if($kysely_email->num_rows > 0) {
-        // jos sähköposti on jo olemassa
         $_SESSION['errorMessageRegister'] = true;
         $_SESSION['errorTextRegister'] = "Sähköposti on jo käytössä";
         header("Location: ../index.php"); 
@@ -52,30 +61,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: ../index.php"); 
         exit;
     }
-
+    
+    // jos jokin arvo on tyhjä
     if (empty($name) or empty($email) or empty($password)) {
-        // jos jokin arvo on tyhjä
         header("Location: ../index.php"); 
         exit;
-        } else {
-            // lisää arvot tietokantaan ja tarkistaa että se onnistuu
-            $stmt = $conn->prepare("INSERT INTO kalastaja (nimi, email, pword) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $name, $email, $hash_password);
+    } 
+        
+    // lisää arvot tietokantaan ja tarkistaa että se onnistuu
+    $stmt = $conn->prepare("INSERT INTO kalastaja (nimi, email, pword) VALUES (?, ?, ?)");
+    $stmt->bind_param("sss", $name, $email, $hash_password);
 
-            if ($stmt->execute() === TRUE) {
-                // luodaan uusi session id käyttäjälle
-                session_regenerate_id();
-                $_SESSION["email"] = "$email";
-                $_SESSION["nimi"] = "$name";
-                header("Location: ../main/index.php"); 
-                exit;
-            } else {
-                // jos epäonnistuu saa viestin
-                $_SESSION['errorMessageRegister'] = true;
-                $_SESSION['errorTextRegister'] = "Jokin meni pieleen";
-                header("Location: ../index.php"); 
-                exit;
-            }
+    if ($stmt->execute() === TRUE) {
+        // jos rekisteröinti onnistuu
+        //  luodaan uusi session id käyttäjälle
+        session_regenerate_id();
+        $_SESSION["email"] = "$email";
+        $_SESSION["nimi"] = "$name";
+        header("Location: ../main/index.php"); 
+        exit;
+        } else {
+            // jos epäonnistuu saa viestin
+            $_SESSION['errorMessageRegister'] = true;
+            $_SESSION['errorTextRegister'] = "Jokin meni pieleen";
+            header("Location: ../index.php"); 
+            exit;
         }
     } 
     header("Location: ../index.php"); 

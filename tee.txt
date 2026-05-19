@@ -1,6 +1,2 @@
-lisää vielä että sallii vaa tietyt merkit formeissa
-PHP CSRF
-tarkista vielä lommeiken turvallisuus
 admin optimointia/korjauksia
 muista kommentoida
-korjaaa paskat koodit
