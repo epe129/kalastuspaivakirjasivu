@@ -260,7 +260,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
                 ";
             }
             ?>
-            <input type="hidden" name="csrf_token_li" value="<?php echo $_SESSION['csrf_token_li'] ?>">   
+            <input type="hidden" name="csrf_token_li" value="<?php echo htmlspecialchars($_SESSION['csrf_token_li']) ?>">   
         </form>
         <!-- jos käyttäjä valitsee muu voi lisätä uuden arvon -->
         <div class="laji_muu_div" id="laji_muu_div">
@@ -268,7 +268,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
                 <h2 style="margin-bottom: 10px;" id="h2_muu"></h2>
                 <input type="text" id="muu" placeholder="Muu mikä" maxlength="24" style="font-size: 1.5rem;">
                 <button type="submit" class="button_muu">Lähetä</button>
-                <input type="hidden" name="csrf_token_li_muu" value="<?php echo $_SESSION['csrf_token_li_muu'] ?>">   
+                <input type="hidden" name="csrf_token_li_muu" value="<?php echo htmlspecialchars($_SESSION['csrf_token_li_muu']) ?>">   
             </form>    
         </div>
     </div>

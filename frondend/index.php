@@ -108,13 +108,13 @@ if (empty($_SESSION['csrf_token_r'])) {
             <h1>Register</h1>
             <br>
             <label>name</label>
-            <input type="text" name="name" require>
+            <input type="text" name="name" required>
             <br>
             <label>email</label>
-            <input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" require>
+            <input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
             <br>
             <label>password</label>
-            <input type="password" name="password" require>
+            <input type="password" name="password" required>
             <br>
             <button type="submit">Läheta</button>
             <br>
@@ -130,7 +130,7 @@ if (empty($_SESSION['csrf_token_r'])) {
             ?>
             <br>
             <a href="./login/index.php">Log in</a>
-            <input type="hidden" name="csrf_token_r" value="<?php echo $_SESSION['csrf_token_r'] ?>">
+            <input type="hidden" name="csrf_token_r" value="<?php echo htmlspecialchars($_SESSION['csrf_token_r']) ?>">
         </form>
     </div>
 </body>

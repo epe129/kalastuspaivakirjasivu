@@ -12,6 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die('CSRF token validation failed');
     }
 
+    unset($_SESSION['csrf_token_r']);
+
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
     unset($_SESSION['errorMessageRegister']);
     unset($_SESSION['errorTextRegister']);
