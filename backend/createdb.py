@@ -1,13 +1,20 @@
+"""
+pymysql avulla yhdistää tietokantaan.
+dbinfosta saa databasen yhdistämiseen tarvittavat tiedot
+"""
 import pymysql, dbinfo
 # luodaan yhteys
 try:
-    connection = pymysql.connect(host=dbinfo.data["HOST"], port=dbinfo.data["PORT"], user=dbinfo.data["USER"], password=dbinfo.data["PASSWORD"], database=dbinfo.data["DBNIMI"])
+    connection = pymysql.connect(host=dbinfo.data["HOST"], port=dbinfo.data["PORT"],
+    user=dbinfo.data["USER"], password=dbinfo.data["PASSWORD"], database=dbinfo.data["DBNIMI"])
     cursor = connection.cursor()
-except Exception as e:
-    print(f"Yhteyden luominen epäonnistui {e}")
+except ImportError:
+    print("Yhteyden luominen epäonnistui")
 
 def db():
-    # luodaan taulut
+    """
+    luodaan tietokannan taulut sekä lisätään laji. vapa ja viehe arvot
+    """
     try:
         cursor.execute("CREATE TABLE IF NOT EXISTS KALASTAJA ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE, nimi VARCHAR(45) NOT NULL, email VARCHAR(45) NOT NULL UNIQUE, pword VARCHAR(255) NOT NULL);")
         cursor.execute("CREATE TABLE IF NOT EXISTS VIEHE ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL  UNIQUE, viehe TEXT NOT NULL);")
@@ -15,7 +22,7 @@ def db():
         cursor.execute("CREATE TABLE IF NOT EXISTS LAJI ( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL  UNIQUE, laji TEXT NOT NULL UNIQUE);")
         cursor.execute("CREATE TABLE IF NOT EXISTS TARPPI ( id INT AUTO_INCREMENT NOT NULL  UNIQUE, aika DATETIME NOT NULL, kalastaja_id INT NOT NULL, viehe_id INT NOT NULL, vapa_id INT NOT NULL, paikka TEXT, FOREIGN KEY (kalastaja_id) REFERENCES KALASTAJA(id), FOREIGN KEY (viehe_id) REFERENCES VIEHE(id), FOREIGN KEY (vapa_id) REFERENCES VAPA(id), PRIMARY KEY (id, kalastaja_id, viehe_id, vapa_id));")
         cursor.execute("CREATE TABLE IF NOT EXISTS KALA ( id INT AUTO_INCREMENT NOT NULL  UNIQUE, tarppi_id INT NOT NULL, pituus FLOAT, paino FLOAT, laji_id INT NOT NULL, FOREIGN KEY (tarppi_id) REFERENCES TARPPI(id), FOREIGN KEY (laji_id) REFERENCES LAJI(id), PRIMARY KEY (id, tarppi_id));")
-        lajit = ["ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki", "kuha", "kuore", "lahna", "lohi", "made", "muikku", "pasuri", "rautu", "ruutana" "salakka", "särki", "säyne", "siika", "silakka", "sorva", "suutari", "taimen", "täplärapu"]
+        lajit = ["ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki", "kuha", "kuore", "lahna", "lohi", "made", "muikku", "pasuri", "rautu", "ruutana", "salakka", "särki", "säyne", "siika", "silakka", "sorva", "suutari", "taimen", "täplärapu"]
         viehet = ["lusikka", "lippa", "jigi", "perho", "vaappu", "spinnerbait", "popperi", "jerkki", "häntyri", "bladebait", "chatterbait", "spintail"]
         vavat = ["avokelavapa", "jigivapa", "haukivapa", "onki", "hyrräkelavapa", "umpikelavapa", "merivapa", "jäämerivapa"]
         for laji in lajit:
@@ -25,6 +32,6 @@ def db():
         for vapa in vavat:
             cursor.execute(f'INSERT INTO vapa (vapa) VALUES ("{vapa}")')
         cursor.connection.commit()          
-    except Exception as e:
-        print(f"Taulukon luominen epäonnistui {e}")
+    except ImportError:
+        print("Taulukon luominen epäonnistui")
 db()

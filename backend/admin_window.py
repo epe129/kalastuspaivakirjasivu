@@ -456,4 +456,3 @@ def admin_window(root):
     def close():
         root.destroy()
     admin_window.protocol("WM_DELETE_WINDOW", close)
-    
