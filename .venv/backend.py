@@ -39,7 +39,7 @@ password_var= StringVar()
 my_string_var = StringVar()
 
 # otsikko teksti
-l = ctk.CTkLabel(root, text = "Log in", font=('calibre',35,'bold')).place(x=465, y=75)
+ctk.CTkLabel(root, text = "Log in", font=('calibre',35,'bold')).place(x=465, y=75)
 
 # name input
 username = ctk.CTkLabel(root, text="Name:", font=('calibre',20)).place(x=385, y=150)
