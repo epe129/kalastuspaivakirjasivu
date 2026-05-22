@@ -181,7 +181,31 @@ def viehe_poista(viehe_input, hae_viehe, button_viehe, viehe_list_box, viehet_li
     cursor.execute("SELECT viehe FROM viehe")
     viehet = cursor.fetchall()
     paivittaa(viehet, viehe_input, viehet_list)
+
+"""
+laitaa parametreihin kaikkia
+
+"""
+def tarkistaa_input(hae):
+    # muokka kenttien ja nappin paikkoja sekä saa inputin
+    hae_kayttaja_input = hae.get()
+    paikat([(kayttajat_list_box, {"x": 210, "y": 165}), (button_kayttaja, {"x": 423, "y": 130})])
+    paikat_unohtaa([kayttajat_input,text_vapa,hae_vapa, vapa_input,button_vapa,vapa_list_box])
     
+    # jos haku kenttä on tyhjä laittaa buttonit ja muut inputit/tekstit takaisin paikoilleen 
+    if hae_kayttaja_input == '':
+        data_kayttaja = kayttajat_list
+        paikat([(kayttajat_input, {"x": 210, "y": 160}), (button_kayttaja, {"x": 210, "y": 190}), (text_vapa, {"x": 210, "y": 250}), (hae_vapa, {"x": 210, "y": 280}), (vapa_input, {"x": 210, "y": 310}), (button_vapa, {"x": 210, "y": 340})])
+        paikat_unohtaa([vapa_list_box,kayttajat_list_box])
+        kayttajat_input.set("Poista käyttäjä")
+        hae_kayttaja.delete(0, END)
+    else:
+        data_kayttaja = filter_haku(hae_kayttaja_input.lower(), kayttajat_list)
+    
+    # päivittää listaa joka näkyy kun hakee haun perusteella
+    paivittaa_list_haku(data_kayttaja, kayttajat_list_box)
+
+
 # ottaa input arvon ja päivittää listaa haun mukaan
 def tarkistaa_input_kayttaja(hae_kayttaja, kayttajat_list_box, button_kayttaja, kayttajat_input, text_vapa, hae_vapa, vapa_input, button_vapa, vapa_list_box, kayttajat_list):
     
