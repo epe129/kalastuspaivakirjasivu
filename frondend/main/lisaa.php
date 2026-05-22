@@ -22,7 +22,6 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lisää kalastustietoja</title>
     <style>
-        /* html css */
         html {
             background-image: url('../kuvat/tausta.jpg'); 
             background-repeat: no-repeat;
@@ -36,7 +35,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
             align-items: center;
             margin: 0 auto;
         }
-        .otsikko {
+        .main-div h1 {
             background-color: white;
             border-radius: 5px;
             padding: 5px;
@@ -167,7 +166,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
         </li>
     </ul>
     <div class="main-div">
-        <h1 class="otsikko">Lisää kalastustiedot</h1>
+        <h1>Lisää kalastustiedot</h1>
         <!-- form lomake -->
         <form class="form" action="../data/handleAdd.php" method="post">
             <label class="label" for="pituus">Kalalaji:</label>

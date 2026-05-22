@@ -48,14 +48,12 @@ ctk.CTkLabel(root, text = "Log in", font=('calibre',35,'bold')).place(x=465, y=7
 
 # name input
 ctk.CTkLabel(root, text="Name:", font=('calibre',20)).place(x=385, y=150)
-username_input = ctk.CTkEntry(root, textvariable=username_var,
-                               font=('calibre',20,'normal'), width=200)
+username_input = ctk.CTkEntry(root, textvariable=username_var, font=('calibre',20,'normal'), width=200)
 username_input.place(x=450, y=150)
 
 # password input
 ctk.CTkLabel(root, text="Password:", font=('calibre',20)).place(x=350, y=200)
-password_input = ctk.CTkEntry(root, textvariable=password_var,
-                               font=('calibre',20,'normal'), show="*", width=200)
+password_input = ctk.CTkEntry(root, textvariable=password_var, font=('calibre',20,'normal'), show="*", width=200)
 password_input.place(x=450, y=200)
 
 # luodaan teksti kenttä jossa teksti voi muuttua

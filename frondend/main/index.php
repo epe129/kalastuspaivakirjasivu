@@ -29,7 +29,6 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kalastustiedot</title>
         <style>
-            /* html css */
             html {
                 background-image: url('../kuvat/tausta.jpg'); 
                 background-repeat: no-repeat;

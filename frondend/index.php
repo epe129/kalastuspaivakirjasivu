@@ -26,17 +26,13 @@ if (empty($_SESSION['csrf_token_r'])) {
             font-size: 1.3rem;
             min-height: 70vh;
         }
-
-        div {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            text-align: center;
-            margin: 0;
-
+        /* otsikon css */
+        .welcome_text {
+            background-color: white;
+            padding: 5px;
+            border-radius: 8px;
         }
-
+        /* formin css */
         form {
             background-color: white;
             padding: 20px 50px 40px 40px;
@@ -92,46 +88,37 @@ if (empty($_SESSION['csrf_token_r'])) {
             color: black;
             cursor: pointer;
         }
-
-        h1 {
-            background-color: white;
-            padding: 5px;
-            border-radius: 8px;
-        }
-
     </style>
 </head>
 <body>
-    <div>
-        <h1>Tervetuloa kalastus sivulle registeröidy aloittaaksesi omien kala tietojen tallennus</h1>
-        <form action="./data/handleRegister.php" method="POST">
-            <h1>Register</h1>
-            <br>
-            <label>name</label>
-            <input type="text" name="name" required>
-            <br>
-            <label>email</label>
-            <input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
-            <br>
-            <label>password</label>
-            <input type="password" name="password" required>
-            <br>
-            <button type="submit">Läheta</button>
-            <br>
-            <?php
-            //  Jos arvojoen syöttö epäonnistuu saa viestin 
-            if (isset($_SESSION['errorMessageRegister']) and isset($_SESSION['errorTextRegister'])) {
-                $text = ucfirst($_SESSION['errorTextRegister']);
-                echo "
-                <br/>
-                <span>$text</span>
-                <br/>";
-            }
-            ?>
-            <br>
-            <a href="./login/index.php">Log in</a>
-            <input type="hidden" name="csrf_token_r" value="<?php echo htmlspecialchars($_SESSION['csrf_token_r']) ?>">
-        </form>
-    </div>
+    <h1 class="welcome_text">Tervetuloa kalastus sivulle registeröidy aloittaaksesi omien kala tietojen tallennus</h1>
+    <form action="./data/handleRegister.php" method="POST">
+        <h1>Register</h1>
+        <br>
+        <label>name</label>
+        <input type="text" name="name" required>
+        <br>
+        <label>email</label>
+        <input type="email" name="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" required>
+        <br>
+        <label>password</label>
+        <input type="password" name="password" required>
+        <br>
+        <button type="submit">Läheta</button>
+        <br>
+        <?php
+        //  saa viestin onnistuiko arvojen lisääminen 
+        if (isset($_SESSION['errorMessageRegister']) and isset($_SESSION['errorTextRegister'])) {
+            $text = ucfirst($_SESSION['errorTextRegister']);
+            echo "
+            <br/>
+            <span>$text</span>
+            <br/>";
+        }
+        ?>
+        <br>
+        <a href="./login/index.php">Log in</a>
+        <input type="hidden" name="csrf_token_r" value="<?php echo htmlspecialchars($_SESSION['csrf_token_r']) ?>">
+    </form>
 </body>
 </html>

@@ -9,7 +9,7 @@ if (empty($_SESSION['csrf_token_l'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Log in</title>
     <style>
         html {
             background-image: url('../kuvat/tausta.jpg'); 
@@ -26,7 +26,7 @@ if (empty($_SESSION['csrf_token_l'])) {
             font-size: 1.3rem;
             min-height: 70vh;
         }
-
+        /* formin css */
         form {
             background-color: white;
             padding: 20px 50px 40px 40px;
@@ -97,7 +97,7 @@ if (empty($_SESSION['csrf_token_l'])) {
         <button type="submit">Lähetä</button>
         <br>
         <?php
-        //  Jos arvojoen syöttö epäonnistuu saa viestin 
+        //  saa viestin onnistuiko arvojen lisääminen 
         if (isset($_SESSION['errorMessageLogin']) and isset($_SESSION['errorTextLogin'])) {
             $text = ucfirst($_SESSION['errorTextLogin']);
             echo "
