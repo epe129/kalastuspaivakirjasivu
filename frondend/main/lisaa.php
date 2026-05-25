@@ -145,7 +145,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
             color: black;
             text-decoration: none;
         }
-            
+
         .logout:hover {
             background-color: #dbdbdb;
         } 

@@ -25,6 +25,16 @@ if (empty($_SESSION['csrf_token_r'])) {
             flex-direction: column;            
             font-size: 1.3rem;
         }
+        
+        .otsikko_div {
+            text-align: center;
+            background-color: white; 
+            width: fit-content; 
+            height: fit-content; 
+            margin: 0 auto; 
+            padding: 0px 5px 0px 5px; 
+            border-radius: 5px;
+        }
 
         /* formin css */
         form {
@@ -81,16 +91,6 @@ if (empty($_SESSION['csrf_token_r'])) {
             font-size: 1.5rem;
             color: black;
             cursor: pointer;
-        }
-
-        .otsikko_div {
-            text-align: center;
-            background-color: white; 
-            width: fit-content; 
-            height: fit-content; 
-            margin: 0 auto; 
-            padding: 0px 5px 0px 5px; 
-            border-radius: 5px;
         }
     </style>
 </head>

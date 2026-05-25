@@ -47,15 +47,14 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 margin-top: 50px;
                 margin-bottom: 55px;
             }
-            /* main div css */
             .main {
                 margin: 0 auto;
                 position: relative;
                 height: 100%;
                 width: 100%;
             }
-            /* show css */
-            .show {
+            /* nayttaa css */
+            .nayttaa {
                 margin: 0 auto;
                 position: relative;
                 padding: 20px;
@@ -119,7 +118,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
     <?php
     echo "<h1 class='title'>Kalastustietoja</h1>";
     echo "<div class='main'>";
-        echo "<div class='show'>";
+        echo "<div class='nayttaa'>";
             echo "<h2>Kalat painon mukaan</h2>";
             // haetaan dataa tietokannasta
             $rivien_maarat = 0;
@@ -150,7 +149,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             }            
         echo "</div>
         <br/>";
-        echo "<div class='show'>";
+        echo "<div class='nayttaa'>";
             echo "<h2>Kalat pituuden mukaan</h2>";
             $rivien_maarat = 0;
             $tulos = $conn->query("SELECT laji, pituus FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id='$kalastaja_id' AND tarppi.id=kala.tarppi_id ORDER BY pituus DESC");
@@ -179,7 +178,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             }
         echo "</div>
         <br/>";
-        echo "<div class='show'>";
+        echo "<div class='nayttaa'>";
             echo "<h2>Kalalajien saanti määrät</h2>";
             $tulos = $conn->query("SELECT laji, laji_id, COUNT(laji_id) as maara FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id='$kalastaja_id' AND tarppi.id=kala.tarppi_id GROUP BY laji_id ORDER BY maara DESC");
             if ($tulos->num_rows > 0) {
@@ -198,7 +197,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             }
         echo "</div>
         <br/>";
-        echo "<div class='show'>";
+        echo "<div class='nayttaa'>";
             echo "<h2>Kalalajien saanti määrät eri vieheillä</h2>";
             $rivien_maarat = 0;
             // käy lajit arraysta
@@ -225,7 +224,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             }
         echo "</div>
         <br/>";
-        echo "<div class='show'>";
+        echo "<div class='nayttaa'>";
             echo "<h2>Kalalajien saanti määrät eri vavoilla</h2>";
             foreach ($lajit as $x) {
                 $tulos = $conn->query("SELECT COUNT(laji) AS maara, laji, vapa FROM vapa, tarppi, kala, laji WHERE vapa.id=tarppi.vapa_id AND kala.laji_id=laji.id AND tarppi.kalastaja_id='$kalastaja_id' AND tarppi.id=kala.tarppi_id AND laji='$x' GROUP BY vapa ORDER BY maara DESC;");
