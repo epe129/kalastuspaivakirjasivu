@@ -55,7 +55,7 @@ def paivittaa_list_haku(kayttajat_list, box):
         for index, item in enumerate(kayttajat_list):
             box.insert(index, item)
     except KeyError as e:
-        print("Yrität käyttää listan kohdetta, jota ei ole olemassa!")
+        print("Yrittää käyttää listan kohdetta, jota ei ole olemassa!")
 
 def admin_window(root):
     """
