@@ -174,14 +174,17 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 // tarkistaa että dataa on
                 if ($data_viehe) {
                     while($rivi = $data_viehe->fetch_assoc()) {
+                        // lisää rivin arrayhyn
                         array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
                     }
                 } 
                 $kysely_viehe->close();
             }
+            // sorttaa arrayn määrän järjestykseen
             $maara = array_column($viehe, 'maara');
             array_multisort($maara, SORT_DESC, $viehe);
+            // tulostaa datan näytille arraysta
             foreach ($viehe as $rivi) {
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
@@ -211,14 +214,17 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 // tarkistaa että dataa on
                 if ($data_vapa) {
                     while($rivi = $data_vapa->fetch_assoc()) {
+                        // lisää rivin arrayhyn
                         array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
                     }
                 } 
                 $kysely_vapa->close();
             }
+            // sorttaa arrayn määrän järjestykseen
             $maara = array_column($vapa, 'maara');
             array_multisort($maara, SORT_DESC, $vapa);
+            // tulostaa datan näytille arraysta
             foreach ($vapa as $rivi) {
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
