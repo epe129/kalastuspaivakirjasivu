@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION['MessageAdd']);
 // Saadaan yhteys tietokantaan 
 include_once('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut
@@ -116,7 +117,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
     </ul>
     <!-- datan näyttö -->
     <?php
-    echo "<h1 class='title'>Kalastustietoja</h1>";
+    echo "<h1 class='title'>Kalastustiedot</h1>";
     echo "<div class='main'>";
         echo "<div class='nayttaa'>";
             echo "<h2>Kalat painon mukaan</h2>";

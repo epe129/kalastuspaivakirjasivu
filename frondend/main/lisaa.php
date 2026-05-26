@@ -166,7 +166,7 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
         </li>
     </ul>
     <div class="main-div">
-        <h1>Lisää kalastustiedot</h1>
+        <h1>Lisää kalastustietoja</h1>
         <!-- form lomake -->
         <form class="form" action="../data/handleAdd.php" method="post">
             <label class="label" for="pituus">Kalalaji:</label>
@@ -192,10 +192,10 @@ if (empty($_SESSION['csrf_token_li_muu'])) {
             </select>
             <br/>
             <label class="label" for="pituus">Pituus (cm):</label>
-            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.01" id="pituus" name="pituus" placeholder="Kalan pituus" class="input" required>
+            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.001" id="pituus" name="pituus" placeholder="Kalan pituus" class="input" required>
             <br/>        
             <label class="label" for="paino">Paino (kg):</label>
-            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.01" id="paino" name="paino" placeholder="Kalan paino" class="input" required>                 
+            <input type="number" oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, 6);" maxlength="6" step="0.001" id="paino" name="paino" placeholder="Kalan paino" class="input" required>                 
             <br/>
             <label class="label" for="paikka">Paikka:</label>
             <input type="text" id="paikka" name="paikka" placeholder="Kalansaanti paikka" class="input" maxlength="24" required>

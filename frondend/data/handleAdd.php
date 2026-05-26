@@ -47,29 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit;
   } 
   
-  // // saa kaikki id:t mitä tarvittee
-  // $selectit = array($_SESSION["email"]=>"SELECT id FROM kalastaja WHERE email = ?", $vapa=>"SELECT id FROM vapa WHERE vapa = ?", $viehe=>"SELECT id FROM viehe WHERE viehe = ?",  $laji=>"SELECT id FROM laji WHERE laji = ?");
-  // foreach ($selectit as $key => $value) {
-  //   $saa_id = $conn->prepare($value);
-  //   $saa_id->bind_param("s", $key);
-  //   $saa_id->execute();
-  //   $saa_id->bind_result($saatu_arvo);
-  //   $saa_id->fetch();
-  //   $saadut[] = "$saatu_arvo";
-  //   $saa_id->close();
-  // }
-  // $kalastaja_id = $saadut[0];
-  // $vapa_id = $saadut[1];
-  // $viehe_id = $saadut[2];
-  // $laji_id = $saadut[3];
-  // echo $viehe_id;
-
-  $saa_kalastaja_id = $conn->prepare("SELECT id FROM kalastaja WHERE email = ?");
-  $saa_kalastaja_id->bind_param("s", $_SESSION["email"]);
-  $saa_kalastaja_id->execute();
-  $saa_kalastaja_id->bind_result($kalastaja_id);
-  $saa_kalastaja_id->fetch();
-  $saa_kalastaja_id->close();
+  // saa kaikki id:t mitä tarvittee
+  $kalastaja_id = $_SESSION["kalastaja_id"];
     
   $saa_vapa_id = $conn->prepare("SELECT id FROM vapa WHERE vapa = ?");
   $saa_vapa_id->bind_param("s", $vapa);

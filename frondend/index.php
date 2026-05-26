@@ -33,7 +33,7 @@ if (empty($_SESSION['csrf_token_r'])) {
             height: fit-content; 
             margin: 0 auto; 
             padding: 0px 5px 0px 5px; 
-            border-radius: 5px;
+            border-radius: 10px;
         }
 
         /* formin css */
