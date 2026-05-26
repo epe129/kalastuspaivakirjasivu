@@ -77,6 +77,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $saa_laji_id->fetch();
   $saa_laji_id->close();
 
+  // varmista että valittu laji, viehe ja vapa löytyvät tietokannasta
+  if (empty($vapa_id) || empty($viehe_id) || empty($laji_id)) {
+    $_SESSION["MessageAdd"] = true;
+    $_SESSION['Text'] = "Valittu vapa, viehe tai laji ei löydy tietokannasta";
+    header("Location: ../main/lisaa.php"); 
+    exit;
+  }
+
   // lisää tarppi tiedot 
   $lisaa_tarppi = $conn->prepare("INSERT INTO tarppi (aika, kalastaja_id, viehe_id, vapa_id, paikka) VALUES (?, ?, ?, ?, ?)");
   $lisaa_tarppi->bind_param("siiis", $aika, $kalastaja_id, $viehe_id, $vapa_id, $paikka);
