@@ -1,9 +1,8 @@
-# Kalasaaliiden Tallennusnettisivu – Näyttötyöraportti
+# Kalasaaliiden Tallennusnettisivu – raportti
 
 ## Johdanto
 
-Tämän projektin tavoitteena oli toteuttaa koulun näyttötyö, jossa voin näyttää osaamistani ohjelmoinnissa, tietokannoissa ja web-kehityksessä. Projektissa toteutin kalasaaliiden tallennukseen tarkoitetun sovelluksen, jossa käyttäjät voivat lisätä ja tarkastella kalastustietoja.
-
+Tämän projektin tavoitteena oli toteuttaa kalasaaliiden tallennukseen tarkoitettu sovellus, jossa käyttäjät voivat lisätä ja tarkastella kalastustietoja. Projektin avulla harjoittelin ohjelmointia, tietokantoja ja web-kehitystä.
 ---
 
 # Projektin tavoite
@@ -13,7 +12,7 @@ Projektin tavoitteena oli tehdä toimiva sovellus kalasaaliiden tallentamiseen j
 * rekisteröityä
 * kirjautua sisään
 * lisätä kalasaaliita
-* tarkastella tallennettuja tietoja
+* tarkastella omia tallennettuja tietoja
 
 Projektin tarkoituksena oli samalla harjoitella frontendin, backendin ja tietokantojen käyttöä yhdessä.
 
@@ -33,8 +32,9 @@ Projektissa käytettiin seuraavia teknologioita:
 
 # Tietokanta
 
-Tietokanta suunniteltiin kalasaaliiden tallennukseen. Tietokannassa on omat taulut esimerkiksi:
+Tietokanta suunniteltiin kalasaaliiden tallennukseen. Tietokannassa on omat taulut:
 
+* tarpeille
 * käyttäjille
 * kaloille
 * kalalajeille
@@ -48,9 +48,9 @@ Tietokannan relaatiot mahdollistavat tietojen yhdistämisen ja hakemisen tehokka
 * KALASTAJA → käyttäjätiedot
 * TARPPI → yksi saatu kala / tapahtuma
 * KALA → kalan tiedot
-* LAJI → kalan laji
-* VIEHE → käytetty viehe
-* VAPA → käytetty vapa
+* LAJI → kala lajit
+* VIEHE → vieheet
+* VAPA → vavat
 
 ![Kuva tietokannasta](database.png)
 
@@ -110,7 +110,7 @@ Projektin aikana opin lisää:
 * PHP-ohjelmoinnista
 * Python-ohjelmoinnista
 * Tietokantojen käytöstä ja tekemisestä
-* frontendin ja backendin yhdistämisestä
+* Frontendin ja backendin yhdistämisestä
 
 Opin myös käyttämään prepared statementteja sekä salasanojen turvallista hashäystä.
 
