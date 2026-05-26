@@ -29,77 +29,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kalastustiedot</title>
-        <style>
-            html {
-                background-image: url('../kuvat/tausta.jpg'); 
-                background-repeat: no-repeat;
-                background-attachment: fixed;  
-                background-size: cover;
-            }
-            /* otsikon css */
-            .title {
-                text-align: center;
-                margin: auto;
-                font-size: 3rem;
-                color: black;
-                background-color: white;
-                border-radius: 5px;
-                width: 350px;
-                margin-top: 50px;
-                margin-bottom: 55px;
-            }
-            .main {
-                margin: 0 auto;
-                position: relative;
-                height: 100%;
-                width: 100%;
-            }
-            /* nayttaa css */
-            .nayttaa {
-                margin: 0 auto;
-                position: relative;
-                padding: 20px;
-                font-size: 1.5rem;
-                height: 100%;
-                width: 450px;
-                border: 1px solid gray;
-                border-radius: 5px;
-                box-shadow: 2px 2px 5px black;
-                background-color: white;
-            }
-            /* navbar css */
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                background-color: #333333;
-                display: flex;
-                border-radius: 5px;
-                width: 100%;
-            }
-
-            .a {
-                display: block;
-                color: white;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-            
-            .a:hover {
-                background-color: #232323;
-            }
-
-            .logout {
-                padding: 14px 16px; 
-                background-color: white;
-                color: black;
-                text-decoration: none;
-            }
-
-            .logout:hover {
-                background-color: #dbdbdb;
-            } 
-        </style>
+        <link rel="stylesheet" href="main.css">          
     </head>
 <body>
     <!-- navbar -->

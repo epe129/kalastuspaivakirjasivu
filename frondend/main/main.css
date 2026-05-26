@@ -1,0 +1,183 @@
+/* molemmilla sivuilla on samat html ja navbar css */
+html {
+    background-image: url('../kuvat/tausta.jpg'); 
+    background-repeat: no-repeat;
+    background-attachment: fixed;  
+    background-size: cover;
+}
+
+/* navbar css */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #333333;
+    display: flex;
+    border-radius: 5px;
+    width: 100%;
+}
+            
+.a {
+    display: block;
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+            
+.a:hover {
+    background-color: #232323;
+}
+
+.logout {
+    padding: 14px 16px; 
+    background-color: white;
+    color: black;
+    text-decoration: none;
+}
+
+.logout:hover {
+    background-color: #dbdbdb;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* lisaa.php css */
+
+/* div css */
+.main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.main-div h1 {
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 3rem;
+}
+
+/* form, input ja label css */
+.form {
+    background-color: white;
+    padding: 25px;
+    width: 400px;
+    border: 1px solid rgb(101, 100, 100);
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px rgb(101, 100, 100);
+}
+
+.label {
+    display: block;
+    font-size: 1.2rem;
+}
+
+.input {
+    width: 100%;
+    padding: 2px;
+}
+
+/* laji muu form ja div css */
+.laji_muu_div {
+    background-color: rgba(255, 255, 255, 0.4);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    display: none;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    color: black;
+    font-size: 2rem;
+}
+
+.laji_muu_form {
+    margin-top: -500px;
+    flex-direction: column;
+}
+
+.button_muu {
+    margin-top: 5px;
+    float: right;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+/* form button css */
+.button {
+    margin-top: 5px;
+    margin-right: -10px;
+    float: right;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+/* select css eli valikon css */
+    select {
+    border: 1px solid #a9a9a9;
+    background: #eeeeee;
+    padding: 2px;
+    transition: 0.4s;
+    width: 100%;
+    text-align: center;
+}
+
+select:hover, select:focus {
+    background: #dddddd;
+}
+
+select, input {
+    margin: 8px 0px;
+    font-size: 1.1rem;
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+/* index.php css */
+
+/* otsikon css */
+.title {
+    text-align: center;
+    margin: auto;
+    font-size: 3rem;
+    color: black;
+    background-color: white;
+    border-radius: 5px;
+    width: 350px;
+    margin-top: 50px;
+    margin-bottom: 55px;
+}
+
+.main {
+    margin: 0 auto;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+/* nayttaa css */
+.nayttaa {
+    margin: 0 auto;
+    position: relative;
+    padding: 20px;
+    font-size: 1.5rem;
+    height: 100%;
+    width: 450px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px black;
+    background-color: white;
+}
