@@ -119,5 +119,3 @@ Opin myös käyttämään prepared statementteja sekä salasanojen turvallista h
 # Yhteenveto
 
 Projektissa toteutettiin toimiva kalasaaliiden tallennussovellus käyttäen PHP:tä, Pythonia ja MySQL-tietokantaa. Projekti kehitti osaamistani erityisesti web-kehityksessä, tietokannoissa ja ohjelmistojen rakenteen suunnittelussa.
-
-Projektin aikana opin paljon uusista teknologioista ja sain kokemusta koko sovelluksen rakentamisesta frontendistä tietokantaan asti.
