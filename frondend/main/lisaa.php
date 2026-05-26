@@ -4,7 +4,7 @@ session_start();
 include_once('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut
 if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-    header("Location: ../index.php");
+    header("Location: ../login/index.php");
     exit();
 }
 // CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
