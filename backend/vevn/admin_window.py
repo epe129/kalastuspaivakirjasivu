@@ -2,13 +2,16 @@
 admin window moduuli on tehty thinker- ja customtkinter:illä,
 jossa admin voi poistaa käyttajiä, vieheitä, vapoja ja lajeja.
 """
-import pymysql, dbinfo, poista_moduuli, tarkista_moduuli
-import customtkinter as ctk
 from tkinter import StringVar, END
 from CTkListbox import CTkListbox
+import customtkinter as ctk
+import pymysql
+import dbinfo
+import poista_moduuli
+import tarkista_moduuli
 
 # yhteys tietokantaan, ottaa yhteyden tiedot python tidostosta
-connection = pymysql.connect(host=dbinfo.data["HOST"], port=dbinfo.data["PORT"], 
+connection = pymysql.connect(host=dbinfo.data["HOST"], port=dbinfo.data["PORT"],
 user=dbinfo.data["USER"], password=dbinfo.data["PASSWORD"], database=dbinfo.data["DBNIMI"])
 cursor = connection.cursor()
 
@@ -61,7 +64,8 @@ def admin_window(root):
     """
     luodaan admin ikkuna ja siihen buttonit, labelit, luettelot ja tekstit.
     lambda: sallii lähettää parametreja kun esim buttoni kutsuu functiota.
-    Käytetään frame, jotta kaikki admin_window buttonit, label tms ikkunan sisällä pysyvät aina samassa paikassa.
+    Käytetään frame, jotta kaikki admin_window buttonit,
+    label tms ikkunan sisällä pysyvät aina samassa paikassa.
     """
     # luodaan listat
     kayttajat_list = []
@@ -91,10 +95,8 @@ def admin_window(root):
     window.geometry("1000x600")
     window.resizable(width=False, height=False)
     window.title("Admin")
-  
     container = ctk.CTkFrame(window, width=1000, height=600)
-    container.place(x=0, y=0)
-                   
+    container.place(x=0, y=0)               
     # luodaan inpu teille tyyppit
     hae_string_var = StringVar()
     laji_hae_string_var = StringVar()
@@ -106,21 +108,20 @@ def admin_window(root):
 
     # otsikko
     ctk.CTkLabel(container, text="Poista käyttäjä:", font=('calibre',20)).place(x=210, y=100)
-
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     kayttajat_list_box = CTkListbox(container, width=200)
-
     # hakukenttä
-    hae_kayttaja = ctk.CTkEntry(container, textvariable=hae_string_var,font=('calibre',12,'normal'), width=200)
+    hae_kayttaja = ctk.CTkEntry(container, textvariable=hae_string_var,
+                                font=('calibre',12,'normal'), width=200)
     hae_kayttaja.place(x=210, y=130)        
-
     # luettelo boxsi
-    kayttajat_input = ctk.CTkComboBox(container, values=[x[0] for x in kayttajat], font=('calibre',15))
+    kayttajat_input = ctk.CTkComboBox(container, values=[x[0] for x in kayttajat],
+                                       font=('calibre',15))
     kayttajat_input.set("Poista käyttäjä")
     kayttajat_input.place(x=210, y=160)
-
     # button
-    button_kayttaja = ctk.CTkButton(master=container ,text="Poista käyttäjä", command=lambda: poista_moduuli.kayttaja_poista(
+    button_kayttaja = ctk.CTkButton(master=container ,text="Poista käyttäjä", 
+                                    command=lambda: poista_moduuli.kayttaja_poista(
         kayttajat_input,
         hae_kayttaja,
         button_kayttaja,
@@ -135,7 +136,6 @@ def admin_window(root):
         connection
     ))
     button_kayttaja.place(x=210, y=190)
-
     # kuuntelee jos kayttajat_list_box arvo klikattu
     kayttajat_list_box.bind("<Button-1>", lambda e: tayttaa_input(hae_kayttaja, kayttajat_list_box))
     # päivittää kayttajat_list_box
@@ -156,21 +156,20 @@ def admin_window(root):
 
     # otsikko
     ctk.CTkLabel(container, text="Poista laji:", font=('calibre',20)).place(x=590, y=100)
-    
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     laji_list_box = CTkListbox(container, width=200)
-
     # hakukenttä
-    hae_laji = ctk.CTkEntry(container, textvariable=laji_hae_string_var, font=('calibre',12,'normal'), width=200)
+    hae_laji = ctk.CTkEntry(container, textvariable=laji_hae_string_var,
+                            font=('calibre',12,'normal'), width=200)
     hae_laji.place(x=590, y=130) 
-
     # luettelo boxsi
     laji_input = ctk.CTkComboBox(container, values=[x[0] for x in lajit], font=('calibre',15))
     laji_input.set("Poista laji")
     laji_input.place(x=590, y=160)
 
     # button
-    button_laji = ctk.CTkButton(master=container ,text="Poista laji", command=lambda: poista_moduuli.laji_poista(
+    button_laji = ctk.CTkButton(master=container ,text="Poista laji",
+                                command=lambda: poista_moduuli.laji_poista(
         laji_input,
         hae_laji,
         button_laji,
@@ -185,7 +184,6 @@ def admin_window(root):
         connection
     ))
     button_laji.place(x=590, y=190)
-
     # kuuntelee jos laji_list_box arvo klikattu
     laji_list_box.bind("<Button-1>", lambda e: tayttaa_input(hae_laji, laji_list_box))
     # päivittää laji_list_box
@@ -207,21 +205,19 @@ def admin_window(root):
     # otsikko
     text_vapa = ctk.CTkLabel(container, text="Poista vapa:", font=('calibre',20))
     text_vapa.place(x=210, y=250)
-
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     vapa_list_box = CTkListbox(container, width=200)
-
     # hakukenttä
-    hae_vapa = ctk.CTkEntry(container, textvariable=vapa_hae_string_var, font=('calibre',12,'normal'), width=200)
+    hae_vapa = ctk.CTkEntry(container, textvariable=vapa_hae_string_var,
+                            font=('calibre',12,'normal'), width=200)
     hae_vapa.place(x=210, y=280) 
-
     # luettelo boxsi
     vapa_input = ctk.CTkComboBox(container, values=[x[0] for x in vavat], font=('calibre',15))
     vapa_input.set("Poista vapa")
     vapa_input.place(x=210, y=310)
-    
     # button
-    button_vapa = ctk.CTkButton(master=container ,text="Poista vapa", command=lambda: poista_moduuli.vapa_poista(
+    button_vapa = ctk.CTkButton(master=container ,text="Poista vapa", 
+                                command=lambda: poista_moduuli.vapa_poista(
         vapa_input,
         hae_vapa,
         button_vapa,
@@ -231,7 +227,6 @@ def admin_window(root):
         connection
     ))
     button_vapa.place(x=210, y=340)
-
     # kuuntelee jos vapa_list_box arvo klikattu
     vapa_list_box.bind("<Button-1>", lambda e: tayttaa_input(hae_vapa, vapa_list_box))
     # päivittää vapa_list_box
@@ -248,21 +243,19 @@ def admin_window(root):
     # otsikko
     text_viehe = ctk.CTkLabel(container, text="Poista viehe:", font=('calibre',20))
     text_viehe.place(x=590, y=250)
-
     # luodaan luettelo jossa näkyy arvot jos käyttää haku kenttää
     viehe_list_box = CTkListbox(container, width=200)
-    
     # hakukenttä
-    hae_viehe = ctk.CTkEntry(container, textvariable=viehe_hae_string_var, font=('calibre',12,'normal'), width=200)
+    hae_viehe = ctk.CTkEntry(container, textvariable=viehe_hae_string_var, 
+                            font=('calibre',12,'normal'), width=200)
     hae_viehe.place(x=590, y=280) 
-
     # luettelo boxsi
     viehe_input = ctk.CTkComboBox(container, values=[x[0] for x in viehet], font=('calibre',15))
     viehe_input.set("Poista viehe")
     viehe_input.place(x=590, y=310)
-    
     # button
-    button_viehe = ctk.CTkButton(master=container ,text="Poista viehe", command=lambda: poista_moduuli.viehe_poista(
+    button_viehe = ctk.CTkButton(master=container ,text="Poista viehe", 
+                                 command=lambda: poista_moduuli.viehe_poista(
         viehe_input,
         hae_viehe,
         button_viehe,
@@ -272,7 +265,6 @@ def admin_window(root):
         connection
     ))
     button_viehe.place(x=590, y=340)
-  
     # kuuntelee jos viehe_list_box arvo klikattu
     viehe_list_box.bind("<Button-1>", lambda e: tayttaa_input(hae_viehe, viehe_list_box))
     # päivittää viehe_list_box
@@ -286,7 +278,9 @@ def admin_window(root):
         viehet_list
     ))
 
-    # jos painaa x:sää sulkee ikkunan
     def close():
+        """
+        Jos painaa x:sää sulkee ikkunan.
+        """
         root.destroy()
     window.protocol("WM_DELETE_WINDOW", close)

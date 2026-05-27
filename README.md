@@ -18,7 +18,7 @@ pip install -r requirements.txt
 ```
 # Databasen luonti
 ## Backend:
-Luo dbinfo.py, ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
+Luo dbinfo.py ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
 ```
 data = {
   "USER":'esimnerkki',
@@ -28,12 +28,12 @@ data = {
   "HOST": '123.1.2.3',
 } 
 ```
-aja databasen luonti:
+Aja databasen luonti:
 ```
 python createdb.py
 ```
 ## Frondend:
-Luo config.php, ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
+Luo config.php data kansioon ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
 ```
 return array(
     "serverinnimi" => "esimnerkki",
