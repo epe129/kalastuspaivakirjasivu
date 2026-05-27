@@ -14,7 +14,7 @@ def paivittaa(fetch, i, l):
     l.clear()
     for x in fetch:
         l.append(x[0])
-
+        
 # Tehdään arvojen poistot
 def kayttaja_poista(kayttajat_input, hae_kayttaja, button_kayttaja, text_vapa, hae_vapa, vapa_input, button_vapa, vapa_list_box, kayttajat_list_box, kayttajat_list, cursor, connection):
     # varmistaa haluaako varmasti poistaa arvon

@@ -1,4 +1,4 @@
-# Kalastustieto sivu
+# Kalastuspäiväkirja- sivusto
 
 Tämä on nettisivu, jossa on tkinter backend, josta voit poistaa käyttäjiä, lajeja, vieheitä ja vapoja. php frondend jossa käyttäjä voi kirjautua/rekisteröityä jonka jälkeen hän voi lisätä tietoja tietokantaan ja nähdä eri tietoja kalasaaleista esim. eri kalalajien saanti määrät.
 
@@ -33,7 +33,7 @@ aja databasen luonti:
 python createdb.py
 ```
 ## Frondend:
-Luo config.py, ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
+Luo config.php, ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
 ```
 return array(
     "serverinnimi" => "esimnerkki",

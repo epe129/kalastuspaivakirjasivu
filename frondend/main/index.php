@@ -66,7 +66,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             echo "<h2>Kalat painon mukaan</h2>";
             // haetaan dataa tietokannasta
             $rivien_maarat = 0;
-            $kysely_paino = $conn->prepare("SELECT laji, paino FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY paino DESC;");
+            $kysely_paino = $conn->prepare("SELECT aika, laji, paino FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY paino DESC;");
             $kysely_paino->bind_param("i", $kalastaja_id);
             $kysely_paino->execute();
             $data_paino = $kysely_paino->get_result();
@@ -82,7 +82,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                         echo "🐟";
                     }
                     if ($rivien_maarat == 1) {
-                        echo "🥇".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                        echo " ".$rivi["aika"]."🥇"." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
                     } else if ($rivien_maarat == 2) {
                         echo "🥈".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
                     } else if ($rivien_maarat == 3) {
