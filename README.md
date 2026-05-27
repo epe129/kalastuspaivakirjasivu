@@ -19,7 +19,7 @@ Tämä on nettisivu, jossa on tkinter backend, josta voit poistaa käyttäjiä, 
 pip install -r requirements.txt
 ```
 
-# Databasen luonti
+# Tietokannan luonti
 
 ## Backend:
 Luo dbinfo.py ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
