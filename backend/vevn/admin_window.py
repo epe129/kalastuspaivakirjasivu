@@ -96,7 +96,7 @@ def admin_window(root):
     window.resizable(width=False, height=False)
     window.title("Admin")
     container = ctk.CTkFrame(window, width=1000, height=600)
-    container.place(x=0, y=0)               
+    container.place(x=0, y=0)           
     # luodaan inpu teille tyyppit
     hae_string_var = StringVar()
     laji_hae_string_var = StringVar()
