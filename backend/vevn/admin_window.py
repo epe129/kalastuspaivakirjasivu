@@ -166,7 +166,6 @@ def admin_window(root):
     laji_input = ctk.CTkComboBox(container, values=[x[0] for x in lajit], font=('calibre',15))
     laji_input.set("Poista laji")
     laji_input.place(x=590, y=160)
-
     # button
     button_laji = ctk.CTkButton(master=container ,text="Poista laji",
                                 command=lambda: poista_moduuli.laji_poista(
@@ -187,7 +186,7 @@ def admin_window(root):
     # kuuntelee jos laji_list_box arvo klikattu
     laji_list_box.bind("<Button-1>", lambda e: tayttaa_input(hae_laji, laji_list_box))
     # päivittää laji_list_box
-    paivittaa_list_haku(lajit_list, laji_list_box)    
+    paivittaa_list_haku(lajit_list, laji_list_box)  
     # kuuntelee jos inputtiin kirjoitetaan
     hae_laji.bind('<KeyRelease>', lambda e: tarkista_moduuli.tarkistaa_input_laji(
         hae_laji,
@@ -222,7 +221,7 @@ def admin_window(root):
         hae_vapa,
         button_vapa,
         vapa_list_box,
-        vavat_list, 
+        vavat_list,
         cursor,
         connection
     ))
