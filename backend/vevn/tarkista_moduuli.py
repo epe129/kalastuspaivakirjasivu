@@ -16,7 +16,8 @@ def filter_haku(haku,
             data.append(item)
     return data
 
-def tarkistaa_input_kayttaja(hae_kayttaja,
+def tarkistaa_input_kayttaja(
+                            hae_kayttaja,
                             kayttajat_list_box,
                             button_kayttaja,
                             kayttajat_input,
@@ -55,7 +56,8 @@ def tarkistaa_input_kayttaja(hae_kayttaja,
     # päivittää listaa joka näkyy kun hakee inputilla
     admin_window.paivittaa_list_haku(data_kayttaja, kayttajat_list_box)
         
-def tarkistaa_input_laji(hae_laji,
+def tarkistaa_input_laji(
+                        hae_laji,
                         laji_list_box,
                         button_laji,
                         laji_input,
@@ -95,12 +97,13 @@ def tarkistaa_input_laji(hae_laji,
     # päivittää listaa joka näkyy kun hakee inputilla
     admin_window.paivittaa_list_haku(data_laji, laji_list_box)
  
-def tarkistaa_input_viehe(hae_viehe,
-                          viehe_list_box,
-                          button_viehe,
-                          viehe_input,
-                          viehet_list
-                          ):
+def tarkistaa_input_viehe(
+                        hae_viehe,
+                        viehe_list_box,
+                        button_viehe,
+                        viehe_input,
+                        viehet_list
+                        ):
     """
     Tehdään vieheiden haku kun käyttää inputtia, ja päivittää CTkListbox haun mukaan.
     """
@@ -124,7 +127,8 @@ def tarkistaa_input_viehe(hae_viehe,
     # päivittää listaa joka näkyy kun hakee inputilla
     admin_window.paivittaa_list_haku(data_viehe, viehe_list_box)
 
-def tarkistaa_input_vapa(hae_vapa,
+def tarkistaa_input_vapa(
+                        hae_vapa,
                         vapa_list_box,
                         button_vapa,
                         vapa_input,

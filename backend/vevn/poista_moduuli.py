@@ -16,7 +16,8 @@ def paivittaa(fetch, i, l):
         l.append(x[0])
 
 # Tehdään arvojen poistot
-def kayttaja_poista(kayttajat_input,
+def kayttaja_poista(
+                    kayttajat_input,
                     hae_kayttaja,
                     button_kayttaja,
                     text_vapa, hae_vapa,
@@ -78,7 +79,8 @@ def kayttaja_poista(kayttajat_input,
     kayttajat = cursor.fetchall()
     paivittaa(kayttajat, kayttajat_input, kayttajat_list)
 
-def laji_poista(laji_input,
+def laji_poista(
+                laji_input,
                 hae_laji, button_laji,
                 text_viehe,
                 hae_viehe,
@@ -138,7 +140,8 @@ def laji_poista(laji_input,
     lajit = cursor.fetchall()
     paivittaa(lajit, laji_input, lajit_list)
 
-def vapa_poista(vapa_input,
+def vapa_poista(
+                vapa_input,
                 hae_vapa,
                 button_vapa,
                 vapa_list_box,
@@ -184,7 +187,8 @@ def vapa_poista(vapa_input,
     vavat = cursor.fetchall()
     paivittaa(vavat, vapa_input, vavat_list)
 
-def viehe_poista(viehe_input,
+def viehe_poista(
+                viehe_input,
                 hae_viehe,
                 button_viehe,
                 viehe_list_box,
