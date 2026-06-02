@@ -81,23 +81,23 @@ data kansio:
 
 * data/db_connetion.php: Luodaan yhteys tietokantaan
 * data/handleAdd.php: Käsittelee uuden kalasaaliin lisäämisen
-* data/handleLogin.php: Käsittelee sisään kirjautumisen.
-* data/handleLogout.php: Käsittelee ulos kirjautumisen.
-* data/handleMuuAdd.php: Käsittelee uuden vapa, laji ja viehe arvon lisäämisen.
-* data/handleRegister.php: Käsittelee rekisteröitymisen.
+* data/handleLogin.php: Käsittelee sisään kirjautumisen
+* data/handleLogout.php: Käsittelee ulos kirjautumisen
+* data/handleMuuAdd.php: Käsittelee uuden vapa, laji ja viehe arvon lisäämisen
+* data/handleRegister.php: Käsittelee rekisteröitymisen
 
 login kansio:
 
-* login/login.php: Kirjautumis-sivu.
+* login/login.php: Kirjautumis-sivu
 
 main kansio:
 
-* main/index.php: Näytetään kalasaaliiden eri tiedot.
-* main/lisaa.php: Uusien kalalajien lisäämissivu.
+* main/index.php: Näytetään kalasaaliiden eri tiedot
+* main/lisaa.php: Uusien kalalajien lisäämissivu
 
 Frondend:
 
-* /index.php: Rekisteröitymis-sivu.
+* /index.php: Rekisteröitymis-sivu
 
 ## Backend
 
@@ -112,11 +112,11 @@ Backendissä admin voi kirjautua sisään jonka jälkeen hän voi:
 
 Backend rakenne:
 
-* backend/backend.py: Luodaan adminin kirjautumisikkuna.
-* backend/admin_window.py: Luodaan adminin ikkuna jossa admin voi poistaa eri tietoja
-* backend/poista_moduuli.py: Moduuli tiedosto eri tietojen poisto functioille. 
-* backend/tarkista_moduuli.py: Moduuli tiedosto functiolle joka päivittää input hakua.
-* backend/createdb.py: Tiedosto databasen luontiin.
+* backend/backend.py: Luodaan adminin kirjautumisikkuna
+* backend/admin_window.py: Luodaan admin ikkuna jossa admin voi poistaa eri tietoja
+* backend/poista_moduuli.py: Moduuli tiedosto eri tietojen poisto functioille
+* backend/tarkista_moduuli.py: Moduuli tiedosto functiolle joka päivittää input hakua
+* backend/createdb.py: Tiedosto databasen luontiin
 
 ---
 
