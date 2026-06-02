@@ -112,11 +112,11 @@ Backendissä admin voi kirjautua sisään jonka jälkeen hän voi:
 
 Backend rakenne:
 
-* backend.py: Luodaan adminin kirjautumisikkuna.
-* admin_window.py: Luodaan adminin ikkuna jossa admin voi poistaa eri tietoja
-* poista_moduuli.py: Moduuli tiedosto eri tietojen poisto functioille. 
-* tarkista_moduuli.py: Moduuli tiedosto functiolle joka päivittää input hakua.
-* createdb.py: Tiedosto databasen luontiin.
+* backend/backend.py: Luodaan adminin kirjautumisikkuna.
+* backend/admin_window.py: Luodaan adminin ikkuna jossa admin voi poistaa eri tietoja
+* backend/poista_moduuli.py: Moduuli tiedosto eri tietojen poisto functioille. 
+* backend/tarkista_moduuli.py: Moduuli tiedosto functiolle joka päivittää input hakua.
+* backend/createdb.py: Tiedosto databasen luontiin.
 
 ---
 
