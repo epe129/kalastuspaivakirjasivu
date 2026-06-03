@@ -139,7 +139,7 @@ Tietokannan rakenne onnistui myös hyvin ja eri taulujen väliset suhteet toimiv
 # Kehitys ideoita tulevaisuudelle
 
 Kun jatkan projektia tulevaisuudessa, toteutan backendin Flaskilla Tkinterin sijaan. Flask sopii paremmin web-pohjaiseen sovellukseen ja helpottaa backendin laajentamista tulevaisuudessa. Parantaa tietoturvaa frondendissä.
-Lisätä että käyttäjä voi poistaa omia kalasaaliita.
+Lisätä että käyttäjä voi poistaa omia kalasaaliita. Lisätä erikseen sivu jossa käyttäjä näkee kaikki saaliit. Rajoittaa että ei nää kun vaikka ekat 5 saalista etusivulla.
 
 ---
 

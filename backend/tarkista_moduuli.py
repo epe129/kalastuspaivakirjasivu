@@ -16,7 +16,8 @@ def tarkistaa_input(
                     paikat_4
                     ):
     """
-    Saadaan parametreistä input arvo jonka mukaan päivitetään CTkListbox(lista joka näkyy kun hakee inputilla).
+    Saadaan parametreistä input arvo jonka 
+    mukaan päivitetään CTkListbox(lista joka näkyy kun hakee inputilla).
     """
     # muokkaa kenttien ja nappin paikkoja sekä saa inputin
     hae_input = hae.get()
