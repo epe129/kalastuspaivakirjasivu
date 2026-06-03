@@ -1,4 +1,4 @@
-# Kalasaaliiden Tallennusnettisivu – raportti
+# Kalastuspäiväkirja sivusto – raportti
 
 Versio: 0.2
 
