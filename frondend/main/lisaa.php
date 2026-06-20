@@ -115,7 +115,7 @@ if(!isset($_COOKIE["login_token"])) {
             border-radius: 5px;
             box-shadow: 2px 2px 2px rgb(101, 100, 100);
             min-height: fit-content;
-            height: 500px;
+            height: 575px;
         }
 
         .label {
@@ -306,6 +306,9 @@ if(!isset($_COOKIE["login_token"])) {
                     <span>muu</span>
                 </option>
             </select>
+            <br/>
+            <label class="label">Valitse kuva:</label> 
+            <input type="file" name="fileToUpload" id="fileToUpload">
             <br/>
             <button type="submit" class="button">Lähetä</button>
             <?php

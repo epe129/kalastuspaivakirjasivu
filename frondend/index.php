@@ -122,7 +122,7 @@ if (empty($_SESSION['csrf_token_r'])) {
             <label>Salasana</label>
             <input type="password" name="password" required>
             <br>
-            <button type="submit">Läheta</button>
+            <button type="submit">Lähetä</button>
             <br>
             <?php
             //  saa viestin jos rekisteröityminen epäonnnistui
