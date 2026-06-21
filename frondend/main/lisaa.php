@@ -41,10 +41,10 @@ if(!isset($_COOKIE["login_token"])) {
             background-size: cover;
         }
 
-        body {
+        /* body {
             margin: 0;
             padding: 0;
-        }
+        } */
 
         /* navbar css */
         ul {
@@ -225,7 +225,7 @@ if(!isset($_COOKIE["login_token"])) {
     <h1>Lisää kalastustietoja</h1>
     <div class="main-div" id="main-div">
         <!-- form lomake -->
-        <form class="form" action="../data/handleAdd.php" method="post">
+        <form class="form" action="../data/handleAdd.php" method="post" enctype="multipart/form-data">
             <label class="label" for="pituus">Kalalaji:</label>
             <select id="KalaLaji" name="laji" required>
                 <option value="">Valitse kalalaji</option>
@@ -308,9 +308,9 @@ if(!isset($_COOKIE["login_token"])) {
             </select>
             <br/>
             <label class="label">Valitse kuva:</label> 
-            <input type="file" name="fileToUpload" id="fileToUpload">
+            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
             <br/>
-            <button type="submit" class="button">Lähetä</button>
+            <button type="submit" name="submit" class="button">Lähetä</button>
             <?php
             //  teksti onnistuko syöttö vai ei 
             if (isset($_SESSION['MessageAdd'])) {

@@ -3,6 +3,11 @@ session_start();
 // yhteyden tietokantaan
 include_once('db_connection.php');
 
+$uploadDir = __DIR__ . '/uploads/';
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
+
 $saatu_arvo = $laji = $pituus = $paino = $paikka = $aika = $viehe = $vapa = "";
 $kalastaja_id = $viehe_id = $vapa_id = $tarppi_id = $laji_id = 0;
 $tarppi_tiedot_lisaamien = false;
@@ -52,7 +57,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../main/lisaa.php"); 
     exit;
   } 
-  
+
+  // käsittele tiedoston lataus, jos käyttäjä on valinnut kuvan
+  if (isset($_FILES['fileToUpload']) && $_FILES['fileToUpload']['error'] !== UPLOAD_ERR_NO_FILE) {
+    if ($_FILES['fileToUpload']['error'] !== UPLOAD_ERR_OK) {
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Virhe tiedoston latauksessa";
+      header("Location: ../main/lisaa.php");
+      exit;
+    }
+
+    $imageInfo = getimagesize($_FILES['fileToUpload']['tmp_name']);
+    if ($imageInfo === false) {
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Tiedosto ei ole kelvollinen kuva.";
+      header("Location: ../main/lisaa.php");
+      exit;
+    }
+
+    $imageFileType = strtolower(pathinfo($_FILES['fileToUpload']['name'], PATHINFO_EXTENSION));
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+    if (!in_array($imageFileType, $allowedTypes, true)) {
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Vain JPG, JPEG, PNG ja GIF ovat sallittuja.";
+      header("Location: ../main/lisaa.php");
+      exit;
+    }
+
+    if ($_FILES['fileToUpload']['size'] > 500000) {
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Kuva on liian suuri (max 500KB).";
+      header("Location: ../main/lisaa.php");
+      exit;
+    }
+
+    $safeName = time() . '_' . bin2hex(random_bytes(4)) . '_' . preg_replace('/[^A-Za-z0-9._-]/', '_', basename($_FILES['fileToUpload']['name']));
+    $targetFile = $uploadDir . $safeName;
+
+    if (!move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $targetFile)) {
+      $_SESSION["MessageAdd"] = true;
+      $_SESSION['Text'] = "Kuvan siirto uploads-kansioon epäonnistui.";
+      header("Location: ../main/lisaa.php");
+      exit;
+    }
+    
+  }
+
   // saa kaikki id:t mitä tarvittee
   $kalastaja_id = $_SESSION["kalastaja_id"];
     
