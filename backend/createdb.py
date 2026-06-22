@@ -40,7 +40,7 @@ def db():
         cursor.execute("CREATE TABLE IF NOT EXISTS TARPPI"
         " ( id INT AUTO_INCREMENT NOT NULL  UNIQUE, aika DATETIME NOT NULL, kalastaja_id INT NOT NULL, viehe_id INT NOT NULL, vapa_id INT NOT NULL, paikka TEXT, FOREIGN KEY (kalastaja_id) REFERENCES KALASTAJA(id), FOREIGN KEY (viehe_id) REFERENCES VIEHE(id), FOREIGN KEY (vapa_id) REFERENCES VAPA(id), PRIMARY KEY (id, kalastaja_id, viehe_id, vapa_id));")
         cursor.execute("CREATE TABLE IF NOT EXISTS KALA"
-        " ( id INT AUTO_INCREMENT NOT NULL  UNIQUE, tarppi_id INT NOT NULL, pituus FLOAT, paino FLOAT, laji_id INT NOT NULL, FOREIGN KEY (tarppi_id) REFERENCES TARPPI(id), FOREIGN KEY (laji_id) REFERENCES LAJI(id), PRIMARY KEY (id, tarppi_id));")
+        " ( id INT AUTO_INCREMENT NOT NULL  UNIQUE, tarppi_id INT NOT NULL, pituus FLOAT, paino FLOAT, laji_id INT NOT NULL, kuva VARCHAR(255), FOREIGN KEY (tarppi_id) REFERENCES TARPPI(id), FOREIGN KEY (laji_id) REFERENCES LAJI(id), PRIMARY KEY (id, tarppi_id));")
         lajit = ["ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki",
                 "kuha","kuore", "lahna", "lohi", "made", "muikku", "pasuri", 
                 "rautu", "ruutana", "salakka", "särki", "säyne", "siika", 

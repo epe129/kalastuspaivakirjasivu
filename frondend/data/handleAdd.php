@@ -151,8 +151,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // saa tarppi id:n
   $tarppi_id = $lisaa_tarppi->insert_id; 
   // lisää kala tiedot
-  $lisaa_kala = $conn->prepare("INSERT INTO kala (tarppi_id, pituus, paino, laji_id) VALUES (?, ?, ?, ?)");
-  $lisaa_kala->bind_param("iddi", $tarppi_id, $pituus, $paino, $laji_id);
+  $lisaa_kala = $conn->prepare("INSERT INTO kala (tarppi_id, pituus, paino, laji_id, kuva) VALUES (?, ?, ?, ?, ?)");
+  $lisaa_kala->bind_param("iddis", $tarppi_id, $pituus, $paino, $laji_id, $safeName);
   
   // tarkistaa että molemmat syötöt onnistui
   if ($lisaa_kala->execute() === TRUE and $tarppi_tiedot_lisaamien === TRUE) {
