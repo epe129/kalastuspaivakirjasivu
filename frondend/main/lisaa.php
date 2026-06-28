@@ -202,7 +202,8 @@ if(!isset($_COOKIE["login_token"])) {
 <body>
     <!-- navbar -->
     <ul>
-        <li class="li"><a class="a" href="index.php">Kalastustiedot</a></li>
+        <li class="li"><a class="a" href="index.php">Kalastustiedot järjestyksessä</a></li>
+        <li class="li"><a class="a" href="kaikkiData.php">kaikki kalastustiedot</a></li>
         <li class="li"><a class="a" href="lisaa.php">Lisää kalastustietoja</a></li>
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">

@@ -127,7 +127,8 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
 <body>
     <!-- navbar -->
     <ul>
-        <li class="li"><a class="a" href="index.php">Kalastustiedot</a></li>
+        <li class="li"><a class="a" href="index.php">Kalastustiedot järjestyksessä</a></li>
+        <li class="li"><a class="a" href="kaikkiData.php">kaikki kalastustiedot</a></li>
         <li class="li"><a class="a" href="lisaa.php">Lisää kalastustietoja</a></li>
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
@@ -140,7 +141,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
     </ul>
     <!-- datan näyttö -->
     <?php
-    echo "<h1 class='title'>Kalastustiedot</h1>";
+    echo "<h1 class='title'>Kalastustiedot järjestyksessä</h1>";
     echo "<div class='main'>";
         echo "<div class='nayttaa'>";
             echo "<h2>Kalat painon mukaan</h2>";
