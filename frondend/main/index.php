@@ -56,9 +56,6 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 margin: 0;
                 padding: 0;
                 background-color: #333333;
-                /* display: flex; */
-                /* border-radius: 5px; */
-                /* width: 100%; */
                 overflow: hidden;
             }
                        

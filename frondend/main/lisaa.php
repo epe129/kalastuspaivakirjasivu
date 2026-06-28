@@ -41,20 +41,12 @@ if(!isset($_COOKIE["login_token"])) {
             background-size: cover;
         }
 
-        /* body {
-            margin: 0;
-            padding: 0;
-        } */
-
         /* navbar css */
         ul {
             list-style-type: none;
             margin: 0;
             padding: 0;
             background-color: #333333;
-            /* display: flex; */
-            /* border-radius: 5px; */
-            /* width: 100%; */
             overflow: hidden;
         }
                        
@@ -168,6 +160,16 @@ if(!isset($_COOKIE["login_token"])) {
             margin-top: 5px;
             margin-right: -10px;
             float: right;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 5px;
+        }
+
+        #kuvaBt {
+            margin-top: 5px;
             background-color: white;
             border: 1px solid black;
             border-radius: 5px;
@@ -308,7 +310,10 @@ if(!isset($_COOKIE["login_token"])) {
             </select>
             <br/>
             <label class="label">Valitse kuva:</label> 
-            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
+            <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" style="display: none;">
+            <button id="kuvaBt" onclick="document.getElementById('fileToUpload').click()">
+                Valitse kuva
+            </button>
             <br/>
             <button type="submit" name="submit" class="button">Lähetä</button>
             <?php
