@@ -166,7 +166,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             echo "Mitään ei löytynyt";
         }    
         $kysely_paino->close();
-    echo "</div>"
+        echo "</div>"
     ?> 
 </body>
 </html>
