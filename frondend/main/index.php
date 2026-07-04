@@ -154,7 +154,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             // tarkistaa että dataa on
             if ($data_paino) {
                 while ($rivi = $data_paino->fetch_assoc()) {
+                    if ($rivien_maarat == 10) {
+                            break;
+                        }
+        
                     $rivien_maarat += 1;
+                    
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
@@ -191,7 +196,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             // tarkistaa että dataa on
             if ($data_pituus) {
                 while($rivi = $data_pituus->fetch_assoc()) {
+                    if ($rivien_maarat == 10) {
+                        break;
+                    }
+                        
                     $rivien_maarat += 1;
+                    
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
@@ -219,6 +229,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <br/>";
         echo "<div class='nayttaa'>";
             echo "<h2>Kalalajien saanti määrät</h2>";
+            $rivien_maarat = 0;
             $kysely_saanti = $conn->prepare("SELECT laji, laji_id, COUNT(laji_id) as maara FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id GROUP BY laji_id ORDER BY maara DESC;");
             $kysely_saanti->bind_param("i", $kalastaja_id);
             $kysely_saanti->execute();
@@ -226,6 +237,13 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             // tarkistaa että dataa on
             if ($data_saanti) {
                 while($rivi = $data_saanti->fetch_assoc()) {
+                    
+                    if ($rivien_maarat == 10) {
+                        break;
+                    }    
+                
+                    $rivien_maarat += 1;
+                        
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
@@ -256,6 +274,9 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 // tarkistaa että dataa on
                 if ($data_viehe) {
                     while($rivi = $data_viehe->fetch_assoc()) {
+                        if ($rivien_maarat == 10) {
+                            break;
+                        }        
                         // lisää rivin arrayhyn
                         array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
@@ -296,6 +317,9 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 // tarkistaa että dataa on
                 if ($data_vapa) {
                     while($rivi = $data_vapa->fetch_assoc()) {
+                        if ($rivien_maarat == 10) {
+                            break;
+                        }
                         // lisää rivin arrayhyn
                         array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
