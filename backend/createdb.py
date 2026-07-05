@@ -29,6 +29,8 @@ def db():
     luodaan tietokannan taulut sekä lisätään laji, vapa ja viehe arvot.
     """
     try:
+        cursor.execute("CREATE TABLE IF NOT EXISTS admin "
+        "( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE, username VARCHAR(45) NOT NULL, pword VARCHAR(255) NOT NULL);")
         cursor.execute("CREATE TABLE IF NOT EXISTS KALASTAJA "
         "( id INT AUTO_INCREMENT PRIMARY KEY NOT NULL UNIQUE, nimi VARCHAR(45) NOT NULL, email VARCHAR(45) NOT NULL UNIQUE, pword VARCHAR(255) NOT NULL);")
         cursor.execute("CREATE TABLE IF NOT EXISTS VIEHE "
