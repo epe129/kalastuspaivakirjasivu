@@ -3,13 +3,12 @@ This is the main application file for the Flask web application. It defines the 
 The application serves two routes: the root route ('/') which renders the 'index.html' template, and the '/poista' route which renders the 'poista.html' template. 
 The application runs on the default Flask development server when executed directly.
 """
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired
 from flask_mysqldb import MySQL
 import dbinfo
-
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -20,8 +19,6 @@ app.config['MYSQL_PASSWORD'] = dbinfo.data["PASSWORD"]
 app.config['MYSQL_DB'] = dbinfo.data["DBNIMI"]
 
 mysql = MySQL(app)
-
-cursor = mysql.connection.cursor()
 
 class MyForm(FlaskForm):
     username = StringField('Username', validators=[InputRequired()])
@@ -36,10 +33,13 @@ def login():
         if form.validate_on_submit():
             username = form.username.data
             password = form.password.data
+            print(f"Username: {username}, Password: {password}")
+            cursor = mysql.connection.cursor()    
+            cursor.execute('SELECT * FROM admin WHERE username = %s', (username,))
             
-            cursor.execute('SELECT * FROM WHERE username = %s', (username))
-            
-            user = cursor.fetchone()
+            user = cursor.fetchall()
+
+            print(user)
 
 
     return render_template('login.html', form=form)
