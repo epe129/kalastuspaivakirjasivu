@@ -9,6 +9,7 @@ from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired
 from flask_mysqldb import MySQL
 import dbinfo
+import bcrypt
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -41,10 +42,16 @@ def login():
             print(f"Username: {username}, Password: {password}")
             cursor = mysql.connection.cursor()    
             cursor.execute('SELECT * FROM admin WHERE username = %s', (username,))
-            
-            user = cursor.fetchall()
-
-            if :
+            user = cursor.fetchall()            
+            # encoding user password
+            getpassword = password.encode('utf-8')
+            storedpassword = user[0][2].encode('utf-8')
+            # checking password
+            result = bcrypt.checkpw(getpassword, storedpassword)
+            if result == True:
+                session['id'] = user[0][0]
+                session['username'] = username
+                session['logged_in'] = True
                 return redirect('/home')
             else:
                 return render_template('login.html', form=form)
@@ -56,19 +63,27 @@ def home():
     """
     Renders the 'home' page of the application.
     """
-
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
 
     return render_template('home.html')
-
 
 @app.route('/poista', methods=['GET', 'POST'])
 def poista():
     """
     Renders the 'poista' page of the application.
     """
-
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
 
     return render_template('poista.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('loggedin', None)
+    session.pop('id', None)
+    session.pop('username', None)
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run()
