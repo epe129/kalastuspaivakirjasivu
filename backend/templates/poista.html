@@ -3,11 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Poista tietoja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 33% 33%;
+            margin: 0 auto;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .main-content div {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 10px;   
+            overflow: hidden;
+        }
+
+
+    </style>
 </head>
 <body>
     {% extends 'navbar.html' %}
     {% block body %}
+    <div class="main-content">
+        <div>
+            <form method="POST" action="{{ url_for('poista') }}">
+                <label for="data">Poista käyttäjä</label>
+                <select name="users" id="users">
+                    {%for i in range(users_length)%}
+                    <option value="{{ i }}">{{ users[i] }}</option>
+                    {%endfor%}
+                </select>                
+                <button type="submit">Poista</button>
+            </form>
+        </div>
+
+        <div>
+            <form method="POST" >
+                <label for="data">Poista laji</label>
+                <select name="laji" id="laji">
+                    <option value=""></option>
+                </select>   
+                <button type="submit">Poista</button>
+            </form>
+        </div>
+        
+        <div>
+            <form method="POST" >
+                <label for="data">Poista vapa</label>
+                <select name="vapa" id="vapa">
+                    <option value=""></option>
+                </select>   
+                <button type="submit">Poista</button>
+            </form>
+        </div>
+        
+        <div>
+            <form method="POST" >
+                <label for="data">Poista viehe</label>
+                <select name="viehe" id="viehe">
+                    <option value=""></option>
+                </select>   
+                <button type="submit">Poista</button>
+            </form>
+        </div>
+    </div>
     
     {% endblock %}
 </body>

@@ -1,8 +1,42 @@
 <!DOCTYPE html>
 <html>
 <body>
-    <a href="{{ url_for('home') }}">Koti</a>
-    <a href="{{ url_for('poista') }}">Poista</a>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f7f9fb;
+            color: #222;
+        }
+        nav {
+            background: #0f5ba1;
+            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+        .navbar-links {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .navbar-links a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .navbar-links a:hover {
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffeb7f;
+        }
+    </style>
+    <nav>
+        <div class="navbar-links">
+            <a href="{{ url_for('home') }}">Koti</a>
+            <a href="{{ url_for('poista') }}">Poista</a>
+        </div>
+    </nav>
     {% block body %}
     {% endblock %}
 </body>

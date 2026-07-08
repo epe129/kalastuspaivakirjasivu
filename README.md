@@ -1,6 +1,9 @@
-# Kalastuspäiväkirja- sivusto
+# Kalastuspäiväkirja- sivu
 
-Versio: 0.2
+- currently developing new backend
+
+Versio: 0.2 
+
 
 Tämä on nettisivu, jossa on tkinter backend, johon admin voi kirjautua ja poistaa käyttäjiä, lajeja, vieheitä ja vapoja. php frondend jossa käyttäjä voi kirjautua/rekisteröityä jonka jälkeen hän voi lisätä tietoja tietokantaan ja nähdä eri tietoja kalasaaleista esim. eri kalalajien saanti määrät.
 

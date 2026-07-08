@@ -65,7 +65,7 @@ def home():
     """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
-
+    
     return render_template('home.html')
 
 @app.route('/poista', methods=['GET', 'POST'])
@@ -75,8 +75,18 @@ def poista():
     """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
+    
+    cursor = mysql.connection.cursor()    
+    cursor.execute('SELECT id, email FROM kalastaja')
+    users = cursor.fetchall()            
 
-    return render_template('poista.html')
+    # if request.method == 'POST':
+    #     test = request.form.get('users')
+    #     print(f"Selected user to delete: {test}")
+
+    return render_template('poista.html', users=users, users_length=len(users))
+
+
 
 @app.route('/logout')
 def logout():

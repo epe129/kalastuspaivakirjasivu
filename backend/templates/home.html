@@ -3,12 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>home</title>
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f4f6f8;
+            color: #222;
+        }
+        .admin-box {
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .actions a {
+            text-decoration: none;
+            background: #007bff;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
     {% extends 'navbar.html' %}
     {% block body %}
-    
+    <div class="admin-box">
+        <h1>Admin Dashboard</h1>
+        <p>Welcome to the admin page.</p>
+        <p>You can manage content and users from here.</p>
+    </div>
     {% endblock %}
 </body>
 </html>
