@@ -62,12 +62,39 @@ def login():
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     """
-    Renders the 'home' page of the application.
+    Renders the 'home' page of the application with basic statistics.
     """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
-    
-    return render_template('home.html')
+
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT COUNT(*) FROM kalastaja')
+    users_count = cursor.fetchone()[0]
+
+    cursor.execute('SELECT COUNT(*) FROM laji')
+    species_count = cursor.fetchone()[0]
+
+    cursor.execute('SELECT COUNT(*) FROM vapa')
+    rods_count = cursor.fetchone()[0]
+
+    cursor.execute('SELECT COUNT(*) FROM viehe')
+    lures_count = cursor.fetchone()[0]
+
+    cursor.execute('SELECT COUNT(*) FROM tarppi')
+    trips_count = cursor.fetchone()[0]
+
+    cursor.execute('SELECT COUNT(*) FROM kala')
+    fish_count = cursor.fetchone()[0]
+
+    return render_template(
+        'home.html',
+        users_count=users_count,
+        species_count=species_count,
+        rods_count=rods_count,
+        lures_count=lures_count,
+        trips_count=trips_count,
+        fish_count=fish_count
+    )
 
 @app.route('/poista', methods=['GET', 'POST'])
 def poista():
@@ -127,6 +154,18 @@ def delete_user():
         return redirect('/poista')
     
     return redirect('/poista')
+
+@app.route('/delete_vapa', methods=['GET', 'POST'])
+def delete_vapa():
+    pass
+
+@app.route('/delete_laji', methods=['GET', 'POST'])
+def delete_laji():
+    pass
+
+@app.route('/delete_viehe', methods=['GET', 'POST'])
+def delete_viehe():
+    pass
 
 @app.route('/logout')
 def logout():

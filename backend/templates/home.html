@@ -13,7 +13,7 @@
             color: #222;
         }
         .admin-box {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 40px auto;
             background: white;
             padding: 24px;
@@ -25,6 +25,29 @@
             gap: 12px;
             flex-wrap: wrap;
             margin-top: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .stat-card {
+            background: #f7fbff;
+            border: 1px solid #dce7f4;
+            border-radius: 10px;
+            padding: 18px;
+            text-align: center;
+        }
+        .stat-card h2 {
+            margin: 0;
+            font-size: 2.2rem;
+            color: #0f5ba1;
+        }
+        .stat-card p {
+            margin: 8px 0 0;
+            color: #4a5568;
+            font-size: 0.95rem;
         }
         .actions a {
             text-decoration: none;
@@ -40,8 +63,32 @@
     {% block body %}
     <div class="admin-box">
         <h1>Admin Dashboard</h1>
-        <p>Welcome to the admin page.</p>
-        <p>You can manage content and users from here.</p>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2>{{ users_count }}</h2>
+                <p>Registered users</p>
+            </div>
+            <div class="stat-card">
+                <h2>{{ species_count }}</h2>
+                <p>Species entries</p>
+            </div>
+            <div class="stat-card">
+                <h2>{{ rods_count }}</h2>
+                <p>Rods available</p>
+            </div>
+            <div class="stat-card">
+                <h2>{{ lures_count }}</h2>
+                <p>Lures available</p>
+            </div>
+            <div class="stat-card">
+                <h2>{{ trips_count }}</h2>
+                <p>Catch logs</p>
+            </div>
+            <div class="stat-card">
+                <h2>{{ fish_count }}</h2>
+                <p>Fish records</p>
+            </div>
+        </div>
     </div>
     {% endblock %}
 </body>
