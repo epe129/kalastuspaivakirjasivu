@@ -78,18 +78,48 @@ def poista():
     
     cursor = mysql.connection.cursor()    
     cursor.execute('SELECT id, email FROM kalastaja')
-    users = cursor.fetchall()            
+    users = cursor.fetchall()      
 
-    # if request.method == 'POST':
-    #     test = request.form.get('users')
-    #     print(f"Selected user to delete: {test}")
+    cursor = mysql.connection.cursor()    
+    cursor.execute('SELECT id, laji FROM laji')
+    laji = cursor.fetchall()   
 
-    return render_template('poista.html', users=users, users_length=len(users))
+    
+    cursor = mysql.connection.cursor()    
+    cursor.execute('SELECT id, vapa FROM vapa')
+    vapa = cursor.fetchall()      
+          
 
+    cursor = mysql.connection.cursor()    
+    cursor.execute('SELECT id, viehe FROM viehe')
+    viehe = cursor.fetchall()      
+        
+    return render_template('poista.html', users=users, users_length=len(users), laji=laji, laji_length=len(laji), vapa=vapa, vapa_length=len(vapa), viehe=viehe, viehe_length=len(viehe))
 
+@app.route('/delete_user', methods=['GET', 'POST'])
+def delete_user():
+    """
+    Handles the deletion of a user from the database.
+    Expects a POST request with the 'users' form field containing the ID of the user to delete.
+    """
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        user_id = request.form.get('users')
+        print(f"Selected user to delete: {user_id}")
+        # cursor = mysql.connection.cursor()
+        # cursor.execute('DELETE FROM kalastaja WHERE id = %s', (user_id,))
+        # mysql.connection.commit()
+        return redirect('/poista')
+    
+    return redirect('/poista')
 
 @app.route('/logout')
 def logout():
+    """
+    Logs out the current user by clearing the session and redirecting to the login page.
+    """
     session.pop('loggedin', None)
     session.pop('id', None)
     session.pop('username', None)
