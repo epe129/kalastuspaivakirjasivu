@@ -10,6 +10,7 @@ from wtforms.validators import InputRequired
 from flask_mysqldb import MySQL
 import dbinfo
 import bcrypt
+import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -107,10 +108,22 @@ def delete_user():
     
     if request.method == 'POST':
         user_id = request.form.get('users')
-        print(f"Selected user to delete: {user_id}")
-        # cursor = mysql.connection.cursor()
-        # cursor.execute('DELETE FROM kalastaja WHERE id = %s', (user_id,))
-        # mysql.connection.commit()
+        s = user_id.split(',')[1]
+        s = re.sub("[)']", "", s) 
+        cursor = mysql.connection.cursor()
+        # poistetaan käyttäjä ja siihen kuuluvat tiedot
+        cursor.execute(f"SELECT id FROM kalastaja WHERE email='{s.strip()}'")
+        kayttajat_id = cursor.fetchall()
+        cursor.execute(f"SELECT id FROM tarppi WHERE kalastaja_id='{kayttajat_id[0][0]}'")
+        tarppi_idt = cursor.fetchall()
+        for c in tarppi_idt:
+            cursor.execute(f"DELETE FROM kala WHERE tarppi_id='{c[0]}'")
+        cursor.execute(f"DELETE FROM tarppi WHERE kalastaja_id='{kayttajat_id[0][0]}'")
+        cursor.execute(f"DELETE FROM kalastaja WHERE email='{s.strip()}'")
+        # tallettaa tapahtuneen tietokantaan
+        mysql.connection.commit()
+        print(f"User with email {s.strip()} has been deleted.")
+
         return redirect('/poista')
     
     return redirect('/poista')
