@@ -80,20 +80,12 @@ def home():
     cursor.execute('SELECT COUNT(*) FROM viehe')
     lures_count = cursor.fetchone()[0]
 
-    cursor.execute('SELECT COUNT(*) FROM tarppi')
-    trips_count = cursor.fetchone()[0]
-
-    cursor.execute('SELECT COUNT(*) FROM kala')
-    fish_count = cursor.fetchone()[0]
-
     return render_template(
         'home.html',
         users_count=users_count,
         species_count=species_count,
         rods_count=rods_count,
         lures_count=lures_count,
-        trips_count=trips_count,
-        fish_count=fish_count
     )
 
 @app.route('/poista', methods=['GET', 'POST'])
