@@ -157,15 +157,72 @@ def delete_user():
 
 @app.route('/delete_vapa', methods=['GET', 'POST'])
 def delete_vapa():
-    pass
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        vapa = request.form.get('vapa')
+        s = vapa.split(',')[1]
+        s = re.sub("[)']", "", s) 
+        cursor = mysql.connection.cursor()        
+        cursor.execute("SET FOREIGN_KEY_CHECKS = 0")        
+        cursor.execute(f"SELECT id FROM vapa WHERE vapa ='{s.strip()}'")
+        vapa_id = cursor.fetchall()
+        cursor.execute(f"UPDATE tarppi set vapa_id = NULL WHERE vapa_id ='{vapa_id[0][0]}'") 
+        cursor.execute(f"DELETE FROM vapa WHERE vapa='{s.strip()}'")        
+        mysql.connection.commit()
+        print(f"Vapa with name {s.strip()} has been deleted.")
+
+        return redirect('/poista')
+    
+    return redirect('/poista')
 
 @app.route('/delete_laji', methods=['GET', 'POST'])
 def delete_laji():
-    pass
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        laji = request.form.get('laji')
+        s = laji.split(',')[1]
+        s = re.sub("[)']", "", s) 
+        cursor = mysql.connection.cursor()   
+        # ignooraa forekey ja poistaa tiedot
+        cursor.execute("SET FOREIGN_KEY_CHECKS = 0")        
+        cursor.execute(f"SELECT id FROM laji WHERE laji='{s.strip()}'")
+        laji_id = cursor.fetchall()
+        cursor.execute(f"UPDATE kala set laji_id = NULL WHERE laji_id ='{laji_id[0][0]}'")       
+        cursor.execute(f"DELETE FROM laji WHERE laji='{s.strip()}'")   
+        mysql.connection.commit()
+        print(f"Laji with name {s.strip()} has been deleted.")
+        
+        return redirect('/poista')
+    
+    return redirect('/poista')
+
 
 @app.route('/delete_viehe', methods=['GET', 'POST'])
 def delete_viehe():
-    pass
+    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        viehe = request.form.get('viehe')
+        s = viehe.split(',')[1]
+        s = re.sub("[)']", "", s) 
+        cursor = mysql.connection.cursor()  
+        # ignooraa forekey ja poistaa tiedot
+        cursor.execute("SET FOREIGN_KEY_CHECKS = 0")        
+        cursor.execute(f"SELECT id FROM viehe WHERE viehe ='{s.strip()}'")
+        viehe_id = cursor.fetchall()
+        cursor.execute(f"UPDATE tarppi set viehe_id = NULL WHERE viehe_id ='{viehe_id[0][0]}'") 
+        cursor.execute(f"DELETE FROM viehe WHERE viehe='{s.strip()}'")        
+        mysql.connection.commit()
+        print(f"Viehe with name {s.strip()} has been deleted.")        
+
+        return redirect('/poista')
+    
+    return redirect('/poista')
 
 @app.route('/logout')
 def logout():

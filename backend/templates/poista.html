@@ -51,11 +51,11 @@
         </div>
 
         <div>
-            <form method="POST" >
+            <form method="POST" action="{{ url_for('delete_laji') }}">
                 <label for="data">Poista laji</label>
                 <select name="laji" id="laji">
                     {%for i in range(laji_length)%}
-                    <option value="{{ i }}">{{ laji[i] }}</option>
+                    <option value="{{ laji[i] }}">{{ laji[i] }}</option>
                     {%endfor%}
                 </select>   
                 <button type="submit">Poista</button>
@@ -63,11 +63,11 @@
         </div>
         
         <div>
-            <form method="POST" >
+            <form method="POST" action="{{ url_for('delete_vapa') }}">
                 <label for="data">Poista vapa</label>
                 <select name="vapa" id="vapa">
                     {%for i in range(vapa_length)%}
-                    <option value="{{ i }}">{{ vapa[i] }}</option>
+                    <option value="{{ vapa[i] }}">{{ vapa[i] }}</option>
                     {%endfor%}
                 </select>   
                 <button type="submit">Poista</button>
@@ -75,7 +75,7 @@
         </div>
         
         <div>
-            <form method="POST" >
+            <form method="POST" action="{{ url_for('delete_viehe') }}">
                 <label for="data">Poista viehe</label>
                 <select name="viehe" id="viehe">
                     {%for i in range(viehe_length)%}
