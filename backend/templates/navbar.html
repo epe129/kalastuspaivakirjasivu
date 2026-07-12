@@ -45,7 +45,8 @@
     <ul>
         <li><a href="{{ url_for('home') }}">Koti</a></li>
         <li><a href="{{ url_for('poista') }}">Poista</a></li>
-        <li style="float:right; color: white; margin-right: 40px;"><p>Terve, {{ session.get('username' )}}</p></li>
+        <li style="float:right; color: white;"><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></li>
+        <li style="float:right; color: white;"><p>Terve, {{ session.get('username' )}}</p></li>
     </ul>
     {% block body %}
     {% endblock %}

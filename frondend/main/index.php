@@ -163,7 +163,13 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
-                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        // check if user has uplouded picture if has showed
+                        if ($rivi["kuva"] == null) {
+                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        } else {
+                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        }
+
                     } else {
                         echo "🐟";
                     }
@@ -189,7 +195,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         echo "<div class='nayttaa'>";
             echo "<h2>Kalat pituuden mukaan</h2>";
             $rivien_maarat = 0;
-            $kysely_pituus = $conn->prepare("SELECT aika, laji, pituus FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY pituus DESC;");
+            $kysely_pituus = $conn->prepare("SELECT aika, laji, pituus, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY pituus DESC;");
             $kysely_pituus->bind_param("i", $kalastaja_id);
             $kysely_pituus->execute();
             $data_pituus = $kysely_pituus->get_result();
@@ -205,7 +211,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        // check if user has uplouded picture if has showed
+                        if ($rivi["kuva"] == null) {
+                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        } else {
+                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        }   
                     } else {
                         echo "🐟";
                     }
@@ -230,7 +241,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         echo "<div class='nayttaa'>";
             echo "<h2>Kalalajien saanti määrät</h2>";
             $rivien_maarat = 0;
-            $kysely_saanti = $conn->prepare("SELECT laji, laji_id, COUNT(laji_id) as maara FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id GROUP BY laji_id ORDER BY maara DESC;");
+            $kysely_saanti = $conn->prepare("SELECT laji, laji_id, COUNT(laji_id) as maara, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id GROUP BY laji_id ORDER BY maara DESC;");
             $kysely_saanti->bind_param("i", $kalastaja_id);
             $kysely_saanti->execute();
             $data_saanti = $kysely_saanti->get_result();
@@ -247,7 +258,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     $lajiKuvaHaku = $rivi["laji"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        // check if user has uplouded picture if has showed
+                        if ($rivi["kuva"] == null) {
+                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        } else {
+                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        }
                     } else {
                         echo "🐟";
                     }
@@ -267,7 +283,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             $viehe = array();
             // käy lajit arraysta
             foreach ($lajit as $x) {
-                $kysely_viehe = $conn->prepare("SELECT laji, viehe, viehe_id, laji_id, COUNT(laji_id) as maara FROM viehe, tarppi, kala, laji WHERE viehe.id=tarppi.viehe_id AND kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id AND laji=? GROUP BY viehe_id ORDER BY maara DESC;");
+                $kysely_viehe = $conn->prepare("SELECT laji, viehe, viehe_id, laji_id, COUNT(laji_id) as maara, kuva FROM viehe, tarppi, kala, laji WHERE viehe.id=tarppi.viehe_id AND kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id AND laji=? GROUP BY viehe_id ORDER BY maara DESC;");
                 $kysely_viehe->bind_param("is", $kalastaja_id, $x);
                 $kysely_viehe->execute();
                 $data_viehe = $kysely_viehe->get_result();
@@ -278,7 +294,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                             break;
                         }        
                         // lisää rivin arrayhyn
-                        array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"]));
+                        array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"], "kuva"=>$rivi["kuva"]));
                         $rivien_maarat += 1;
                     }
                 } 
@@ -292,7 +308,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
-                    echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    // check if user has uplouded picture if has showed
+                    if ($rivi["kuva"] == null) {
+                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    } else {
+                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                    }
                 } else {
                     echo "🐟";
                 }
@@ -310,7 +331,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             $vapa = array();
             // käy lajit arraysta
             foreach ($lajit as $x) {
-                $kysely_vapa = $conn->prepare("SELECT laji, vapa, vapa_id, laji_id, COUNT(laji_id) as maara FROM vapa, tarppi, kala, laji WHERE vapa.id=tarppi.vapa_id AND kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id AND laji=? GROUP BY vapa_id ORDER BY maara DESC;");
+                $kysely_vapa = $conn->prepare("SELECT laji, vapa, vapa_id, laji_id, COUNT(laji_id) as maara, kuva FROM vapa, tarppi, kala, laji WHERE vapa.id=tarppi.vapa_id AND kala.laji_id=laji.id AND tarppi.kalastaja_id=? AND tarppi.id=kala.tarppi_id AND laji=? GROUP BY vapa_id ORDER BY maara DESC;");
                 $kysely_vapa->bind_param("is", $kalastaja_id, $x);
                 $kysely_vapa->execute();
                 $data_vapa = $kysely_vapa->get_result();
@@ -321,7 +342,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                             break;
                         }
                         // lisää rivin arrayhyn
-                        array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"]));
+                        array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"], "kuva"=>$rivi["kuva"]));
                         $rivien_maarat += 1;
                     }
                 } 
@@ -335,7 +356,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
-                    echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    // check if user has uplouded picture if has showed
+                    if ($rivi["kuva"] == null) {
+                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    } else {
+                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                    }
                 } else {
                     echo "🐟";
                 }

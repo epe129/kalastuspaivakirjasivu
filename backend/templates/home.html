@@ -56,13 +56,16 @@
             padding: 10px 14px;
             border-radius: 4px;
         }
+        h1 {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     {% extends 'navbar.html' %}
     {% block body %}
     <div class="admin-box">
-        <h1>Admin Dashboard</h1>
+        <h1>Admin</h1>
         <div class="stats-grid">
             <div class="stat-card">
                 <h2>{{ users_count }}</h2>

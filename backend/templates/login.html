@@ -17,6 +17,7 @@
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
         }
         label {
             display: block;
@@ -41,14 +42,22 @@
         button:hover {
             background-color: #0056b3;
         }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
-    <form action="{{url_for('login')}}" method="post" enctype="multipart/form-data">
-        {{ form.csrf_token }}
-        <p>{{ form.username.label }} {{ form.username() }}</p>
-        <p>{{ form.password.label }} {{ form.password() }}</p>
-        <button type="submit">Login</button>
-    </form>
+    <div>
+        <h1>Admin</h1>
+        <br/>
+        <form action="{{url_for('login')}}" method="post" enctype="multipart/form-data">
+            {{ form.csrf_token }}
+            <p>{{ form.username.label }} {{ form.username() }}</p>
+            <p>{{ form.password.label }} {{ form.password() }}</p>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>

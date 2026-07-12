@@ -3,14 +3,14 @@ This is the main application file for the Flask web application. It defines the 
 The application serves two routes: the root route ('/') which renders the 'index.html' template, and the '/poista' route which renders the 'poista.html' template. 
 The application runs on the default Flask development server when executed directly.
 """
+import re
+import dbinfo
+import bcrypt
 from flask import Flask, render_template, request, session, redirect
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import InputRequired
 from flask_mysqldb import MySQL
-import dbinfo
-import bcrypt
-import re
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -49,13 +49,13 @@ def login():
             storedpassword = user[0][2].encode('utf-8')
             # checking password
             result = bcrypt.checkpw(getpassword, storedpassword)
-            if result == True:
+            if result:
                 session['id'] = user[0][0]
                 session['username'] = username
                 session['logged_in'] = True
                 return redirect('/home')
-            else:
-                return render_template('login.html', form=form)
+            
+            return render_template('login.html', form=form)
             
     return render_template('login.html', form=form)
 
@@ -120,7 +120,6 @@ def poista():
 def delete_user():
     """
     Handles the deletion of a user from the database.
-    Expects a POST request with the 'users' form field containing the ID of the user to delete.
     """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
@@ -149,6 +148,9 @@ def delete_user():
 
 @app.route('/delete_vapa', methods=['GET', 'POST'])
 def delete_vapa():
+    """
+    Handles the deletion of vapa (rod) from the database.
+    """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
     
@@ -171,6 +173,9 @@ def delete_vapa():
 
 @app.route('/delete_laji', methods=['GET', 'POST'])
 def delete_laji():
+    """
+    Handles the deletion of laji (species) from the database.
+    """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
     
@@ -195,6 +200,9 @@ def delete_laji():
 
 @app.route('/delete_viehe', methods=['GET', 'POST'])
 def delete_viehe():
+    """
+    Handles the deletion of viehe (lure) from the database.
+    """
     if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
         return redirect('/')
     

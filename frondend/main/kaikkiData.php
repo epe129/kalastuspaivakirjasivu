@@ -145,7 +145,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
-                    echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                    // check if user has uplouded picture if has showed
+                    if ($rivi['kuva'] == null) {
+                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    } else {
+                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                    }
                 } else {
                     echo "🐟";
                 }
