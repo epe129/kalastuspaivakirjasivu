@@ -310,7 +310,7 @@ if(!isset($_COOKIE["login_token"])) {
                 </option>
             </select>
             <br/>
-            <label class="label">Valitse kuva:</label> 
+            <label class="label" for="kuva">Valitse kuva:</label> 
             <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" style="display: none;">
             <button id="kuvaBt" onclick="document.getElementById('fileToUpload').click()">
                 Valitse kuva

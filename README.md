@@ -1,20 +1,17 @@
 # Kalastuspäiväkirja- sivu
 
-- currently developing new backend
-
 Versio: 0.2 
 
-
-Tämä on nettisivu, jossa on tkinter backend, johon admin voi kirjautua ja poistaa käyttäjiä, lajeja, vieheitä ja vapoja. php frondend jossa käyttäjä voi kirjautua/rekisteröityä jonka jälkeen hän voi lisätä tietoja tietokantaan ja nähdä eri tietoja kalasaaleista esim. eri kalalajien saanti määrät.
+Tämä on nettisivu, jossa on flask backend, johon admin voi kirjautua ja poistaa käyttäjiä, lajeja, vieheitä ja vapoja sekä nähdä lajien, käyttäjien, vapojen ja vieheiden määrän. php frondend jossa käyttäjä voi kirjautua/rekisteröityä jonka jälkeen hän voi lisätä tietoja tietokantaan ja nähdä eri tietoja kalasaaleista esim. eri kalalajien saanti määrät.
 
 # Teknologiat: 
 - Frondend: PHP
-- Backned: Python tkinter
+- Backned: Python Flask
 - Tietokanta: SQL database
 
 # Tarvitaan:
 - XAMPP
-- Python
+- Python ja Flask
 - phpmyadmin database
 
 # Venv luominen
@@ -63,9 +60,9 @@ return array(
 ```
 
 # Ohjelman suorittaminen
-Tkinter ohjelma:
+Flask ohjelma:
 ```
-python backend.py
+flask run --debug
 ```
 
 # Sivu
