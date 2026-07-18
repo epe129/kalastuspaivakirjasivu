@@ -154,16 +154,8 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 } else {
                     echo "🐟";
                 }
-                if ($rivien_maarat == 1) {
-                    // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
-                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
-                } else if ($rivien_maarat == 2) {
-                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
-                } else if ($rivien_maarat == 3) {
-                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
-                } else {
-                    echo $rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
-                }
+                // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
+                echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
             }
         }    
         // jos tulos on nolla

@@ -5,7 +5,7 @@ include_once('db_connection.php');
 
 $uploadDir = __DIR__ . '/uploads/';
 if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
+  mkdir($uploadDir, 0755, true);
 }
 
 $saatu_arvo = $laji = $pituus = $paino = $paikka = $aika = $viehe = $vapa = "";

@@ -40,10 +40,13 @@ def login():
         if form.validate_on_submit():
             username = form.username.data
             password = form.password.data
-            print(f"Username: {username}, Password: {password}")
             cursor = mysql.connection.cursor()    
             cursor.execute('SELECT * FROM admin WHERE username = %s', (username,))
             user = cursor.fetchall()            
+            if not user:
+                form.username.data = ""
+                form.password.data = ""
+                return render_template('login.html', form=form)
             # encoding user password
             getpassword = password.encode('utf-8')
             storedpassword = user[0][2].encode('utf-8')
@@ -54,7 +57,8 @@ def login():
                 session['username'] = username
                 session['logged_in'] = True
                 return redirect('/home')
-            
+            form.username.data = ""
+            form.password.data = ""
             return render_template('login.html', form=form)
             
     return render_template('login.html', form=form)
@@ -64,7 +68,7 @@ def home():
     """
     Renders the 'home' page of the application with basic statistics.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
 
     cursor = mysql.connection.cursor()
@@ -93,7 +97,7 @@ def poista():
     """
     Renders the 'poista' page of the application.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
     
     cursor = mysql.connection.cursor()    
@@ -121,7 +125,7 @@ def delete_user():
     """
     Handles the deletion of a user from the database.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
     
     if request.method == 'POST':
@@ -151,7 +155,7 @@ def delete_vapa():
     """
     Handles the deletion of vapa (rod) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
     
     if request.method == 'POST':
@@ -176,7 +180,7 @@ def delete_laji():
     """
     Handles the deletion of laji (species) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
     
     if request.method == 'POST':
@@ -203,7 +207,7 @@ def delete_viehe():
     """
     Handles the deletion of viehe (lure) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') == None or session.get('username') == None:
+    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
         return redirect('/')
     
     if request.method == 'POST':
