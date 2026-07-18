@@ -1,8 +1,10 @@
 <?php
+
+use function PHPSTORM_META\type;
+
 session_start();
 // yhteyden tietokantaan
 include_once('db_connection.php');
-
 
 // tarkistetaan että käyttäjä on kirjautunut
 if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
@@ -11,6 +13,7 @@ if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $poista = stripslashes(trim(htmlspecialchars($_POST["poista"])));
-    echo "$poista";
+  $poista = stripslashes(trim(htmlspecialchars($_POST["poista"])));
+  $poistaArray = explode(" ", $poista);
+  print_r($poistaArray);
 }
