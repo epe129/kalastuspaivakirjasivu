@@ -1,6 +1,9 @@
 <?php
 session_start();
 unset($_SESSION['MessageAdd']);
+if (empty($_SESSION['csrf_token_p'])) {
+    $_SESSION['csrf_token_p'] = bin2hex(random_bytes(32));
+}
 // Saadaan yhteys tietokantaan 
 include_once('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut
@@ -143,7 +146,8 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     }
                     // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
                     $r = implode(" ",$rivi);
-                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id, $r'/>"."<br/>";    
+                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $r'/>"."<br/>";    
+                    echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
                 }
             }    
             // jos tulos on nolla
