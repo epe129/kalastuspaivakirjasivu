@@ -18,22 +18,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $poista_get = stripslashes(trim(htmlspecialchars($_POST["poista"])));
   $poistaArray = explode(" ", $poista_get);
   $k_id = $poistaArray[0];
-  $aika = $poistaArray[1];
-  $kala = $poistaArray[3];
-  
+  $kala_id = $poistaArray[1];
+  $tarppi_id = $poistaArray[2];
+  $laji_id = $poistaArray[3];
+  $aika = $poistaArray[4];
+
+  print_r($poistaArray);  
+  echo "<br/>";  
   print_r($k_id);
   echo "<br/>";
-  print_r($aika);
+  print_r($kala_id);
   echo "<br/>";
-  print_r($kala);
+  print_r($tarppi_id);
+  echo "<br/>";
+  print_r($laji_id);
+  echo "<br/>";
+  print_r($aika);
 
-  $poista = $conn->prepare("");
-  $poista->bind_param("iss", $k_id, $aika, $kala);
+  $kala_delete = $conn->prepare("DELETE FROM kala WHERE kala.id = ? AND kala.tarppi_id = ? and kala.laji_id = ?");
+  $kala_delete->bind_param("iii", $kala_id, $tarppi_id, $laji_id);
+
+  $tarppi_delete = $conn->prepare("");
+  $tarppi_delete->bind_param("iii", $kala_id, $tarppi_id, $laji_id);
   
-  if ($poista->execute() === True) {
 
-  } else {
+  // if ($poista->execute() === True) {
 
-  }
+  // } else {
+
+  // }
 
 }
+
+// header("Location: ../main/poista.php"); 
+// exit;

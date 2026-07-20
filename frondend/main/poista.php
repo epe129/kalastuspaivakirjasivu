@@ -119,44 +119,42 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
 </head>
 <body>
     <h1>Poista kalastustietojasi</h1>
-    <form class="form" action="../data/handlePoista.php" method="post" enctype="multipart/form-data">
-        <?php
-            echo "<div class='nayttaa'>";
-            // haetaan dataa tietokannasta
-            $rivien_maarat = 0;
-            $kysely_paino = $conn->prepare("SELECT aika, laji, paino, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id");
-            $kysely_paino->bind_param("i", $kalastaja_id);
-            $kysely_paino->execute();
-            $data_paino = $kysely_paino->get_result();
-            // tarkistaa että dataa on
-            if ($data_paino) {
-                while ($rivi = $data_paino->fetch_assoc()) {
-                    $rivien_maarat += 1;
-                    $lajiKuvaHaku = $rivi["laji"];
-                    if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
-                    {
-                        // check if user has uplouded picture if has showed
-                        if ($rivi['kuva'] == null) {
-                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
-                        } else {
-                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
-                        }
+    <?php
+        echo "<div class='nayttaa'>";
+        // haetaan dataa tietokannasta
+        $kysely_paino = $conn->prepare("SELECT aika, laji, kuva, paino, kala.id as kala_id, tarppi.id as tarppi_id, kala.laji_id as laji_id FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id");
+        $kysely_paino->bind_param("i", $kalastaja_id);
+        $kysely_paino->execute();
+        $data_paino = $kysely_paino->get_result();
+        // tarkistaa että dataa on
+        if ($data_paino) {
+            while ($rivi = $data_paino->fetch_assoc()) {
+                $lajiKuvaHaku = $rivi["laji"];
+                if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
+                {
+                    // check if user has uplouded picture if has showed
+                    if ($rivi['kuva'] == null) {
+                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
                     } else {
-                        echo "🐟";
+                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
                     }
-                    // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
-                    $r = implode(" ",$rivi);
-                    echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $r'/>"."<br/>";    
-                    echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
+                } else {
+                    echo "🐟";
                 }
-            }    
-            // jos tulos on nolla
-            if ($rivien_maarat == 0) {
-                echo "Mitään ei löytynyt";
-            }    
-            $kysely_paino->close();
-            echo "</div>"
-        ?>
-    </form>
+                $r = implode(" ",$rivi);
+                $kala_id = $rivi["kala_id"];
+                $tarppi_id = $rivi["tarppi_id"];
+                $laji_id = $rivi["laji_id"];
+                $aika = $rivi["aika"];
+                
+                echo "<form class='form' action='../data/handlePoista.php' method='post' enctype='multipart/form-data'>";
+                echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $kala_id $tarppi_id $laji_id $aika'/>"."<br/>";    
+                echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
+                echo "</form>";
+            }
+        }    
+        // jos tulos on nolla
+        echo "</div>"
+    ?>
 </body>
 </html>
