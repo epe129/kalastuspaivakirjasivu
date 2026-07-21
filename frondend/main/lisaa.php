@@ -205,6 +205,7 @@ if(!isset($_COOKIE["login_token"])) {
         <li class="li"><a class="a" href="index.php">Kalastustiedot järjestyksessä</a></li>
         <li class="li"><a class="a" href="kaikkiData.php">kaikki kalastustiedot</a></li>
         <li class="li"><a class="a" href="lisaa.php">Lisää kalastustietoja</a></li>
+        <li class="li"><a class="a" href="poista.php">Poista kalastustietoja</a></li>
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
                 <?php

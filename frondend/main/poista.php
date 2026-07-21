@@ -115,10 +115,71 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             box-shadow: 2px 2px 5px black;
             background-color: white;
         }
+        /* navbar css */
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            background-color: #333333;
+            overflow: hidden;
+        }
+                       
+        ul li {
+            float: left;
+        }
+
+        ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+            
+        .a:hover {
+            background-color: #232323;
+        }
+
+        .logout {
+            padding: 14px 16px; 
+            background-color: white;
+            color: black;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            background-color: #dbdbdb;
+        }
     </style>
 </head>
 <body>
+    <!-- navbar -->
+    <ul>
+        <li class="li"><a class="a" href="index.php">Kalastustiedot järjestyksessä</a></li>
+        <li class="li"><a class="a" href="kaikkiData.php">kaikki kalastustiedot</a></li>
+        <li class="li"><a class="a" href="lisaa.php">Lisää kalastustietoja</a></li>
+        <li class="li"><a class="a" href="poista.php">Poista kalastustietoja</a></li>
+        <li class="li" style="float: right;">
+            <div style="display: flex; flex-direction:row;">
+                <?php
+                echo "<a class='a'>Terve, " . $_SESSION["nimi"]."</a>";
+                ?>
+                <a class="logout" href="../data/handleLogout.php">Kirjaudu ulos</a>
+            </div>
+        </li>
+    </ul>
     <h1>Poista kalastustietojasi</h1>
+    <?php
+        //  teksti onnistuko syöttö vai ei 
+        if (isset($_SESSION['MessagePoista'])) {
+            $text = ucfirst($_SESSION['TextPoista']);
+            echo "
+            <br/>
+            <span style='font-size: 1.5rem;'>$text</span>
+            <br/>
+            ";
+        }
+        ?>
     <?php
         echo "<div class='nayttaa'>";
         // haetaan dataa tietokannasta
@@ -132,7 +193,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
-                    // check if user has uplouded picture if has showed
+                    // check if user has uplouded picture if has shows that picture
                     if ($rivi['kuva'] == null) {
                         echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
                     } else {
@@ -148,7 +209,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 $aika = $rivi["aika"];
                 
                 echo "<form class='form' action='../data/handlePoista.php' method='post' enctype='multipart/form-data'>";
-                echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $kala_id $tarppi_id $laji_id $aika'/>"."<br/>";    
+                echo date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $kala_id $tarppi_id $laji_id $aika'/>"."<br/>";    
                 echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
                 echo "</form>";
             }

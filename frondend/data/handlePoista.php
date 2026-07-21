@@ -23,32 +23,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $laji_id = $poistaArray[3];
   $aika = $poistaArray[4];
 
-  print_r($poistaArray);  
-  echo "<br/>";  
-  print_r($k_id);
-  echo "<br/>";
-  print_r($kala_id);
-  echo "<br/>";
-  print_r($tarppi_id);
-  echo "<br/>";
-  print_r($laji_id);
-  echo "<br/>";
-  print_r($aika);
-
   $kala_delete = $conn->prepare("DELETE FROM kala WHERE kala.id = ? AND kala.tarppi_id = ? and kala.laji_id = ?");
   $kala_delete->bind_param("iii", $kala_id, $tarppi_id, $laji_id);
 
-  $tarppi_delete = $conn->prepare("");
-  $tarppi_delete->bind_param("iii", $kala_id, $tarppi_id, $laji_id);
+  $tarppi_delete = $conn->prepare("DELETE FROM tarppi WHERE tarppi.id = ? AND tarppi.kalastaja_id = ?");
+  $tarppi_delete->bind_param("ii", $tarppi_id, $_SESSION["kalastaja_id"]);
   
-
-  // if ($poista->execute() === True) {
-
-  // } else {
-
-  // }
+  if ($kala_delete->execute() === True AND $tarppi_delete->execute() === True) {
+    $_SESSION['MessagePoista'] = True;
+    $_SESSION['TextPoista'] = "Saalis poistettiin onnistuneesti";
+  } else {
+    $_SESSION['MessagePoista'] = True;
+    $_SESSION['TextPoista'] = "Saaliin poistaminen epännistui";
+  }
 
 }
+header("Location: ../main/poista.php"); 
+exit;
 
-// header("Location: ../main/poista.php"); 
-// exit;
+
+  // print_r($poistaArray);  
+  // echo "<br/>";  
+  // print_r($k_id);
+  // echo "<br/>";
+  // print_r($kala_id);
+  // echo "<br/>";
+  // print_r($tarppi_id);
+  // echo "<br/>";
+  // print_r($laji_id);
+  // echo "<br/>";
+  // print_r($aika);
