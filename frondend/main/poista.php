@@ -183,6 +183,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
     <?php
         echo "<div class='nayttaa'>";
         // haetaan dataa tietokannasta
+        $rivien_maarat = 0;
         $kysely_paino = $conn->prepare("SELECT aika, laji, kuva, paino, kala.id as kala_id, tarppi.id as tarppi_id, kala.laji_id as laji_id FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id");
         $kysely_paino->bind_param("i", $kalastaja_id);
         $kysely_paino->execute();
@@ -190,6 +191,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         // tarkistaa että dataa on
         if ($data_paino) {
             while ($rivi = $data_paino->fetch_assoc()) {
+                $rivien_maarat += 1;
                 $lajiKuvaHaku = $rivi["laji"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
@@ -213,7 +215,10 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
                 echo "</form>";
             }
-        }    
+        } 
+        if ($rivien_maarat == 0) {
+            echo "Mitään ei löytynyt";
+        }  
         // jos tulos on nolla
         echo "</div>"
     ?>
