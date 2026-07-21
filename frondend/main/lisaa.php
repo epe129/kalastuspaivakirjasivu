@@ -1,5 +1,6 @@
 <?php
 session_start();
+unset($_SESSION['MessagePoista']);
 // Saadaan yhteys tietokantaan 
 include_once('../data/db_connection.php');
 // tarkistetaan että käyttäjä on kirjautunut

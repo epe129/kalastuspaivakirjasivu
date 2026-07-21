@@ -166,6 +166,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       header("Location: ../main/lisaa.php"); 
       exit;
     }
-  } 
-  header("Location: ../main/lisaa.php"); 
-  exit;
+} 
+header("Location: ../main/lisaa.php"); 
+exit;
