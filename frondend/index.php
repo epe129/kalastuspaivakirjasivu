@@ -31,6 +31,7 @@ if (empty($_SESSION['csrf_token_r'])) {
             height: fit-content; 
             margin: 0 auto; 
             border-radius: 10px;
+            padding: 10px;
         }
 
         .main {

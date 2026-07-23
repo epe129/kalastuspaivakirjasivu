@@ -150,6 +150,19 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         .logout:hover {
             background-color: #dbdbdb;
         }
+
+        #TextPoista {
+            display: block;
+            margin: auto;
+            font-size: 1.5rem;
+            text-align: center;
+            color: black;
+            background-color: white;
+            float: none;
+            border-radius: 5px;
+            width: fit-content;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -175,12 +188,10 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             $text = ucfirst($_SESSION['TextPoista']);
             echo "
             <br/>
-            <span style='font-size: 1.5rem;'>$text</span>
+            <span id='TextPoista'>$text</span>
             <br/>
             ";
         }
-        ?>
-    <?php
         echo "<div class='nayttaa'>";
         // haetaan dataa tietokannasta
         $rivien_maarat = 0;
