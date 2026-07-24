@@ -1,7 +1,4 @@
 """
-This is the main application file for the Flask web application. It defines the routes and their corresponding view functions. 
-The application serves two routes: the root route ('/') which renders the 'index.html' template, and the '/poista' route which renders the 'poista.html' template. 
-The application runs on the default Flask development server when executed directly.
 """
 import re
 import dbinfo
@@ -59,8 +56,8 @@ def login():
                 return redirect('/home')
             form.username.data = ""
             form.password.data = ""
-            return render_template('login.html', form=form)
-            
+            return render_template('login.html', form=form)         
+
     return render_template('login.html', form=form)
 
 @app.route('/home', methods=['GET', 'POST'])
@@ -68,7 +65,9 @@ def home():
     """
     Renders the 'home' page of the application with basic statistics.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None 
+        or session.get('id') is None
+        or session.get('username') is None):
         return redirect('/')
 
     cursor = mysql.connection.cursor()
@@ -97,7 +96,9 @@ def poista():
     """
     Renders the 'poista' page of the application.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None
+        or session.get('id') is None 
+        or session.get('username') is None):
         return redirect('/')
     
     cursor = mysql.connection.cursor()    
@@ -108,12 +109,10 @@ def poista():
     cursor.execute('SELECT id, laji FROM laji')
     laji = cursor.fetchall()   
 
-    
     cursor = mysql.connection.cursor()    
     cursor.execute('SELECT id, vapa FROM vapa')
     vapa = cursor.fetchall()      
           
-
     cursor = mysql.connection.cursor()    
     cursor.execute('SELECT id, viehe FROM viehe')
     viehe = cursor.fetchall()      
@@ -125,7 +124,9 @@ def delete_user():
     """
     Handles the deletion of a user from the database.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None 
+        or session.get('id') is None 
+        or session.get('username') is None):
         return redirect('/')
     
     if request.method == 'POST':
@@ -155,7 +156,9 @@ def delete_vapa():
     """
     Handles the deletion of vapa (rod) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None 
+        or session.get('id') is None 
+        or session.get('username') is None):
         return redirect('/')
     
     if request.method == 'POST':
@@ -180,7 +183,9 @@ def delete_laji():
     """
     Handles the deletion of laji (species) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None 
+        or session.get('id') is None 
+        or session.get('username') is None):
         return redirect('/')
     
     if request.method == 'POST':
@@ -207,9 +212,11 @@ def delete_viehe():
     """
     Handles the deletion of viehe (lure) from the database.
     """
-    if session.get('logged_in') is None or session.get('id') is None or session.get('username') is None:
+    if (session.get('logged_in') is None 
+        or session.get('id') is None 
+        or session.get('username') is None):
         return redirect('/')
-    
+   
     if request.method == 'POST':
         viehe = request.form.get('viehe')
         s = viehe.split(',')[1]
@@ -222,7 +229,7 @@ def delete_viehe():
         cursor.execute(f"UPDATE tarppi set viehe_id = NULL WHERE viehe_id ='{viehe_id[0][0]}'") 
         cursor.execute(f"DELETE FROM viehe WHERE viehe='{s.strip()}'")        
         mysql.connection.commit()
-        print(f"Viehe with name {s.strip()} has been deleted.")        
+        print(f"Viehe with name {s.strip()} has been deleted.")       
 
         return redirect('/poista')
     

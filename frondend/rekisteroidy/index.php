@@ -14,7 +14,7 @@ if (empty($_SESSION['csrf_token_r'])) {
     <title>Rekisteröidy</title>
     <style>
         html {
-            background-image: url('./kuvat/tausta.jpg'); 
+            background-image: url('../kuvat/tausta.jpg'); 
             background-repeat: no-repeat;
             background-attachment: fixed;  
             background-size: cover;
@@ -111,7 +111,7 @@ if (empty($_SESSION['csrf_token_r'])) {
     <h1>Tervetuloa kalastus sivulle, <br/> rekisteröidy aloittaaksesi omien kala tietojen tallennus</h1>
     <br/>
     <div class="main">
-        <form action="./data/handleRegister.php" method="POST">
+        <form action="../data/handleRegister.php" method="POST">
             <h1>Rekisteröidy</h1>
             <br>
             <label>Nimi</label>
@@ -136,7 +136,7 @@ if (empty($_SESSION['csrf_token_r'])) {
             }
             ?>
             <br>
-            <a href="./login/index.php">Kirjaudu Sisään</a>
+            <a href="../login/index.php">Kirjaudu Sisään</a>
             <input type="hidden" name="csrf_token_r" value="<?php echo htmlspecialchars($_SESSION['csrf_token_r']) ?>">
         </form>
     </div>

@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION["errorMessageRegister"] = true;
         $_SESSION['errorTextRegister'] = "Sähköposti ei ole kelvollinen";
-        header("Location: ../index.php"); 
+        header("Location: ../rekisteroidy/index.php"); 
         exit;
     }
 
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!preg_match("/^[a-zA-Z0-9äöåÄÖÅ]+$/u",$name)) {
         $_SESSION["errorMessageRegister"] = true;
         $_SESSION['errorTextRegister'] = "Nimi ei ole kelvollinen, vain numerot ja kirjaimet ovat salittuja";
-        header("Location: ../index.php"); 
+        header("Location: ../rekisteroidy/index.php"); 
         exit;
     }
     
@@ -46,13 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (strlen($password) <=  7) {
         $_SESSION["errorMessageRegister"] = true;
         $_SESSION['errorTextRegister'] = "Salasanassa pitää olla vähintää 8 merkkiä";
-        header("Location: ../index.php"); 
+        header("Location: ../rekisteroidy/index.php"); 
         exit;
     }
     
     // jos jokin arvo on tyhjä
     if (empty($name) or empty($email) or empty($password)) {
-        header("Location: ../index.php"); 
+        header("Location: ../rekisteroidy/index.php"); 
         exit;
     } 
 
@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($kysely_email->num_rows > 0) {
         $_SESSION['errorMessageRegister'] = true;
         $_SESSION['errorTextRegister'] = "Sähköposti on jo käytössä";
-        header("Location: ../index.php"); 
+        header("Location: ../rekisteroidy/index.php"); 
         exit;
     }
 
@@ -84,9 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // jos epäonnistuu saa viestin
             $_SESSION['errorMessageRegister'] = true;
             $_SESSION['errorTextRegister'] = "Jokin meni pieleen";
-            header("Location: ../index.php"); 
+            header("Location: ../rekisteroidy/index.php"); 
             exit;
         }
     } 
-    header("Location: ../index.php"); 
+    header("Location: ../rekisteroidy/index.php"); 
     exit;

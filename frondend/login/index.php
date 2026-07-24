@@ -129,7 +129,7 @@ if (empty($_SESSION['csrf_token_l'])) {
             }
             ?>
             <br>
-            <a href="../index.php">Rekisteröidy</a>
+            <a href="../rekisteroidy/index.php">Rekisteröidy</a>
             <input type="hidden" name="csrf_token_l" value="<?php echo htmlspecialchars($_SESSION['csrf_token_l']) ?>">
         </form>
     </div>
