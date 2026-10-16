@@ -1,13 +1,10 @@
 <?php
-session_start();
+require_once __DIR__ . '/../data/security.php';
+require_fisherman();
 unset($_SESSION['MessagePoista']);
 // Saadaan yhteys tietokantaan 
-include_once('../data/db_connection.php');
+require_once __DIR__ . '/../data/db_connection.php';
 // tarkistetaan että käyttäjä on kirjautunut
-if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-    header("Location: ../login/index.php");
-    exit();
-}
 // CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
 if (empty($_SESSION['csrf_token_li'])) {
     $_SESSION['csrf_token_li'] = bin2hex(random_bytes(32));
@@ -15,17 +12,6 @@ if (empty($_SESSION['csrf_token_li'])) {
 if (empty($_SESSION['csrf_token_li_muu'])) {
     $_SESSION['csrf_token_li_muu'] = bin2hex(random_bytes(32));
 }
-// kun cookie häviää kirjaa käyttäjän ulos
-if(!isset($_COOKIE["login_token"])) {
-    // Poista kaikki istunnon muuttujat.
-    $_SESSION = array();
-    session_unset();
-    // tuhoaa istunnon.
-    session_destroy();
-    // Ohjaa käyttäjän takaisin kirjautumissivulle.
-    header("Location: ../login/index.php");
-    exit;
-} 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -210,9 +196,12 @@ if(!isset($_COOKIE["login_token"])) {
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
                 <?php
-                echo "<a class='a'>Terve, " . $_SESSION["nimi"]."</a>";
+                echo "<a class='a'>Terve, " . html($_SESSION["nimi"])."</a>";
                 ?>
-                <a class="logout" href="../data/handleLogout.php">Kirjaudu ulos</a>
+                <form action="../data/handleLogout.php" method="post">
+                    <input type="hidden" name="csrf_logout" value="<?php echo html($_SESSION['csrf_logout']) ?>">
+                    <button class="logout" type="submit">Kirjaudu ulos</button>
+                </form>
             </div>
         </li>
     </ul>
@@ -240,11 +229,8 @@ if(!isset($_COOKIE["login_token"])) {
                     $data_lajit = $kysely_lajit_select->get_result();
                     if ($data_lajit) {
                         while($rivi = $data_lajit->fetch_assoc()) {
-                            echo "
-                            <option value='{$rivi['laji']}'>
-                            {$rivi['laji']}   
-                            </option>
-                            ";
+                            echo '<option value="' . html($rivi['laji']) . '">'
+                                . html($rivi['laji']) . '</option>';
                         }
                     }
                 ?>
@@ -276,11 +262,8 @@ if(!isset($_COOKIE["login_token"])) {
                     $data_viehe = $kysely_viehe_select->get_result();
                     if ($data_viehe) {
                         while($rivi = $data_viehe->fetch_assoc()) {
-                            echo "
-                            <option value='{$rivi['viehe']}'>
-                            {$rivi['viehe']}   
-                            </option>
-                            ";
+                            echo '<option value="' . html($rivi['viehe']) . '">'
+                                . html($rivi['viehe']) . '</option>';
                         }
                     }
                 ?>
@@ -299,11 +282,8 @@ if(!isset($_COOKIE["login_token"])) {
                     $data_vapa = $kysely_vapa_select->get_result();
                     if ($data_vapa) {
                         while($rivi = $data_vapa->fetch_assoc()) {
-                            echo "
-                            <option value='{$rivi['vapa']}'>
-                            {$rivi['vapa']}   
-                            </option>
-                            ";
+                            echo '<option value="' . html($rivi['vapa']) . '">'
+                                . html($rivi['vapa']) . '</option>';
                         }
                     }
                 ?>
@@ -314,7 +294,7 @@ if(!isset($_COOKIE["login_token"])) {
             <br/>
             <label class="label" for="kuva">Valitse kuva:</label> 
             <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*" style="display: none;">
-            <button id="kuvaBt" onclick="document.getElementById('fileToUpload').click()">
+            <button id="kuvaBt" type="button">
                 Valitse kuva
             </button>
             <br/>
@@ -322,7 +302,7 @@ if(!isset($_COOKIE["login_token"])) {
             <?php
             //  teksti onnistuko syöttö vai ei 
             if (isset($_SESSION['MessageAdd'])) {
-                $text = ucfirst($_SESSION['Text']);
+                $text = ucfirst(html($_SESSION['Text']));
                 echo "
                 <br/>
                 <span style='font-size: 1.5rem;'>$text</span>
@@ -333,62 +313,6 @@ if(!isset($_COOKIE["login_token"])) {
             <input type="hidden" name="csrf_token_li" value="<?php echo htmlspecialchars($_SESSION['csrf_token_li']) ?>">   
         </form>
     </div>
-    <script>
-    // ottaa nyky ajan
-    let nyt = new Date();
-
-    function LaitaNykyAika() {
-        // laittaa automaattisesti nykyajan aikaan
-        nyt.setMinutes(nyt.getMinutes() - nyt.getTimezoneOffset());
-        document.getElementById('aika').value = nyt.toISOString().slice(0,10);
-        document.getElementById("aika").max = nyt.toISOString().slice(0,10);
-    }
-    LaitaNykyAika()
-
-    // jos input value on muu niin antaa teksti kentän
-    document.getElementsByName("laji")[0].addEventListener('change', Tee);
-    document.getElementsByName("viehe")[0].addEventListener('change', Tee);
-    document.getElementsByName("vapa")[0].addEventListener('change', Tee);
-
-    function Tee(){
-        // saa arvot
-        let arvo_laji = document.getElementById("KalaLaji").value;
-        let arvo_viehe = document.getElementById("viehe").value;
-        let arvo_vapa = document.getElementById("vapa").value;
-        let input_name = document.querySelector("#muu");
-        let h2_muu = document.getElementById("h2_muu");
-
-
-        // tarkistaa onko muu
-        if (arvo_laji == "muu") {
-            document.getElementById("main-div").style.display = "none";
-            document.getElementById("laji_muu_div").style.display = "flex";
-            document.getElementById("laji_muu_form").style.display = "flex";
-            // asettaa name attribuutin ja tekstin
-            input_name.setAttribute("name", "laji");
-            h2_muu.innerHTML = "Anna uusi kalalaji:"
-            // jos muu valittu laittaa että arvo tarvitaan
-            document.getElementById("muu").required = true;
-        } if (arvo_viehe == "muu") {
-            document.getElementById("main-div").style.display = "none";            
-            document.getElementById("laji_muu_div").style.display = "flex";
-            document.getElementById("laji_muu_form").style.display = "flex";
-            // asettaa name attribuutin ja tekstin
-            input_name.setAttribute("name", "viehe");
-            h2_muu.innerHTML = "Anna uusi viehe:"
-            // jos muu valittu laittaa että arvo tarvitaan
-            document.getElementById("muu").required = true;
-        } if (arvo_vapa == "muu") {
-            document.getElementById("main-div").style.display = "none";
-            document.getElementById("laji_muu_div").style.display = "flex";
-            document.getElementById("laji_muu_form").style.display = "flex";
-            // asettaa name attribuutin ja tekstin
-            input_name.setAttribute("name", "vapa");
-            h2_muu.innerHTML = "Anna uusi vapa:"
-            // jos muu valittu laittaa että arvo tarvitaan
-            document.getElementById("muu").required = true;
-        }
-    }
-    </script>
+    <script src="lisaa.js" defer></script>
 </body>
 </html>

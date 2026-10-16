@@ -1,25 +1,11 @@
 <?php
-session_start();
+require_once __DIR__ . '/../data/security.php';
+require_fisherman();
 unset($_SESSION['MessageAdd']);
 unset($_SESSION['MessagePoista']);
 // Saadaan yhteys tietokantaan 
-include_once('../data/db_connection.php');
+require_once __DIR__ . '/../data/db_connection.php';
 // tarkistetaan että käyttäjä on kirjautunut
-if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-    header("Location: ../login/index.php");
-    exit();
-}
-// kun cookie häviää kirjaa käyttäjän ulos
-if(!isset($_COOKIE["login_token"])) {
-    // Poista kaikki istunnon muuttujat.
-    $_SESSION = array();
-    session_unset();
-    // tuhoaa istunnon.
-    session_destroy();
-    // Ohjaa käyttäjän takaisin kirjautumissivulle.
-    header("Location: ../login/index.php");
-    exit;
-}
 $lajit = array("ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki", "kuha", "kuore", "lahna", "lohi", "made", "muikku", "pasuri", "rautu", "ruutana", "salakka", "särki", "säyne", "siika", "silakka", "sorva", "suutari", "taimen", "täplärapu");
 $kysely_lajit = $conn->prepare("SELECT laji FROM laji");
 $kysely_lajit->execute();
@@ -125,9 +111,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
                 <?php
-                echo "<a class='a'>Terve, " . $_SESSION["nimi"]."</a>";
+                echo "<a class='a'>Terve, " . html($_SESSION["nimi"])."</a>";
                 ?>
-                <a class="logout" href="../data/handleLogout.php">Kirjaudu ulos</a>
+                <form action="../data/handleLogout.php" method="post">
+                    <input type="hidden" name="csrf_logout" value="<?php echo html($_SESSION['csrf_logout']) ?>">
+                    <button class="logout" type="submit">Kirjaudu ulos</button>
+                </form>
             </div>
         </li>
     </ul>
@@ -136,7 +125,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         echo "<div class='nayttaa'>";
         // haetaan dataa tietokannasta
         $rivien_maarat = 0;
-        $kysely_paino = $conn->prepare("SELECT aika, laji, paino, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id");
+        $kysely_paino = $conn->prepare("SELECT kala.id AS fish_id, aika, laji, paino, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id");
         $kysely_paino->bind_param("i", $kalastaja_id);
         $kysely_paino->execute();
         $data_paino = $kysely_paino->get_result();
@@ -148,16 +137,16 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
                     // check if user has uplouded picture if has showed
-                    if ($rivi['kuva'] == null) {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                    if ($rivi['kuva'] === null) {
+                        echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                     } else {
-                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        echo "<img src='../data/image.php?id=" . html($rivi['fish_id']) . "' width='50' height='25'> ";
                     }
                 } else {
                     echo "🐟";
                 }
                 // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
-                echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".html($rivi["laji"]). " ".html($rivi["paino"])." kg"."<br/>";
             }
         }    
         // jos tulos on nolla

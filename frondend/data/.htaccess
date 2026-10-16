@@ -1,0 +1,10 @@
+Options -Indexes
+
+<Files "config.php">
+    Require all denied
+</Files>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^uploads(?:/|$) - [F,L,NC]
+</IfModule>

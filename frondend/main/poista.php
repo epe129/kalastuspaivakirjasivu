@@ -1,27 +1,12 @@
 <?php
-session_start();
+require_once __DIR__ . '/../data/security.php';
+require_fisherman();
 unset($_SESSION['MessageAdd']);
 if (empty($_SESSION['csrf_token_p'])) {
     $_SESSION['csrf_token_p'] = bin2hex(random_bytes(32));
 }
 // Saadaan yhteys tietokantaan 
-include_once('../data/db_connection.php');
-// tarkistetaan että käyttäjä on kirjautunut
-if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-    header("Location: ../login/index.php");
-    exit();
-}
-// kun cookie häviää kirjaa käyttäjän ulos
-if(!isset($_COOKIE["login_token"])) {
-    // Poista kaikki istunnon muuttujat.
-    $_SESSION = array();
-    session_unset();
-    // tuhoaa istunnon.
-    session_destroy();
-    // Ohjaa käyttäjän takaisin kirjautumissivulle.
-    header("Location: ../login/index.php");
-    exit;
-}
+require_once __DIR__ . '/../data/db_connection.php';
 $lajit = array("ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki", "kuha", "kuore", "lahna", "lohi", "made", "muikku", "pasuri", "rautu", "ruutana", "salakka", "särki", "säyne", "siika", "silakka", "sorva", "suutari", "taimen", "täplärapu");
 $kysely_lajit = $conn->prepare("SELECT laji FROM laji");
 $kysely_lajit->execute();
@@ -175,9 +160,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
                 <?php
-                echo "<a class='a'>Terve, " . $_SESSION["nimi"]."</a>";
+                echo "<a class='a'>Terve, " . html($_SESSION["nimi"])."</a>";
                 ?>
-                <a class="logout" href="../data/handleLogout.php">Kirjaudu ulos</a>
+                <form action="../data/handleLogout.php" method="post">
+                    <input type="hidden" name="csrf_logout" value="<?php echo html($_SESSION['csrf_logout']) ?>">
+                    <button class="logout" type="submit">Kirjaudu ulos</button>
+                </form>
             </div>
         </li>
     </ul>
@@ -185,7 +173,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
     <?php
         //  teksti onnistuko syöttö vai ei 
         if (isset($_SESSION['MessagePoista'])) {
-            $text = ucfirst($_SESSION['TextPoista']);
+            $text = ucfirst(html($_SESSION['TextPoista']));
             echo "
             <br/>
             <span id='TextPoista'>$text</span>
@@ -208,22 +196,20 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 {
                     // check if user has uplouded picture if has shows that picture
                     if ($rivi['kuva'] == null) {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                        echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                     } else {
-                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                        echo "<img src='../data/image.php?id=" . html($rivi['kala_id']) . "' width='50' height='25'> ";
                     }
                 } else {
                     echo "🐟";
                 }
                 $r = implode(" ",$rivi);
-                $kala_id = $rivi["kala_id"];
-                $tarppi_id = $rivi["tarppi_id"];
-                $laji_id = $rivi["laji_id"];
-                $aika = $rivi["aika"];
-                
                 echo "<form class='form' action='../data/handlePoista.php' method='post' enctype='multipart/form-data'>";
-                echo date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")." ".$rivi["laji"]. " ".$rivi["paino"]." kg"." <button>Poista</button> <input type='hidden' name='poista' value='$kalastaja_id $kala_id $tarppi_id $laji_id $aika'/>"."<br/>";    
-                echo '<input type="hidden" name="csrf_token_p" value="' . $_SESSION['csrf_token_p'] . '">';
+                echo html(date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y"))
+                    . " " . html($rivi["laji"]) . " " . html($rivi["paino"])
+                    . " kg <button type='submit'>Poista</button>"
+                    . "<input type='hidden' name='fish_id' value='" . html($rivi["kala_id"]) . "'/><br/>";
+                echo '<input type="hidden" name="csrf_token_p" value="' . html($_SESSION['csrf_token_p']) . '">';
                 echo "</form>";
             }
         } 

@@ -2,3 +2,5 @@
 /vevn
 /dbinfo.py
 /vanha_backend
+/__pycache__
+/.env

@@ -45,9 +45,19 @@
     <ul>
         <li><a href="{{ url_for('home') }}">Koti</a></li>
         <li><a href="{{ url_for('poista') }}">Poista</a></li>
-        <li style="float:right; color: white;"><a href="{{ url_for('logout') }}">Kirjaudu ulos</a></li>
+        <li style="float:right; color: white;">
+            <form action="{{ url_for('logout') }}" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit">Kirjaudu ulos</button>
+            </form>
+        </li>
         <li style="float:right; color: white;"><p>Terve, {{ session.get('username' )}}</p></li>
     </ul>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <p role="status" class="flash-{{ category }}">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
     {% block body %}
     {% endblock %}
 </body>

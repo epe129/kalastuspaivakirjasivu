@@ -1,26 +1,15 @@
 <?php
-session_start();
+require_once __DIR__ . '/security.php';
+require_fisherman();
 // yhteyden tietokantaan
-include_once('db_connection.php');
+require_once __DIR__ . '/db_connection.php';
 
 $laji = $viehe = $vapa = "";
 $array_arvot = array("laji", "viehe", "vapa");
 
 // tarkistetaan että käyttäjä on kirjautunut
-if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-  header("Location: ../login/index.php");
-  exit();
-}
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  
-  // tarkistaa onko tokeni asetettu ja onko tokenit samatat session ja input saanissa
-  if (!isset($_POST['csrf_token_li_muu']) || !isset($_SESSION['csrf_token_li_muu']) || !hash_equals($_SESSION['csrf_token_li_muu'], $_POST['csrf_token_li_muu'])) {
-    die('CSRF token validation failed');
-  }
-  
-  // poistetaan tokeni
-  unset($_SESSION['csrf_token_li_muu']);
+  verify_csrf('csrf_token_li_muu');
 
   // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
   unset( $_SESSION['MessageAdd'] );
@@ -29,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   foreach ($array_arvot as $x) {
 
     // hakee aina name inputin avulla ja kattoo onko tyhjä name on aina esim name="laji"
-    $get_arvo = stripslashes(trim(htmlspecialchars($_POST["$x"]))); 
+    $get_arvo = post_string($x);
 
     // tarkistaa onko input tyhjä
     if (strlen($get_arvo) != 0) {

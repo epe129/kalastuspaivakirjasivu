@@ -1,5 +1,5 @@
 <?php 
-session_start();
+require_once __DIR__ . '/../data/security.php';
 unset($_SESSION['errorTextRegister']);
 // CSRF suojaus ettei voi kuka vaan tehdä pyyntojö 
 if (empty($_SESSION['csrf_token_l'])) {
@@ -120,7 +120,7 @@ if (empty($_SESSION['csrf_token_l'])) {
             <?php
             //  saa viestin jos kirjautuminen epäonnistui
             if (isset($_SESSION['errorMessageLogin']) and isset($_SESSION['errorTextLogin'])) {
-                $text = ucfirst($_SESSION['errorTextLogin']);
+                $text = ucfirst(html($_SESSION['errorTextLogin']));
                 echo "
                 <br/>
                 <span>$text</span>

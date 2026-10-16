@@ -1,25 +1,10 @@
 <?php
-session_start();
+require_once __DIR__ . '/../data/security.php';
+require_fisherman();
 unset($_SESSION['MessageAdd']);
 unset($_SESSION['MessagePoista']);
 // Saadaan yhteys tietokantaan 
-include_once('../data/db_connection.php');
-// tarkistetaan että käyttäjä on kirjautunut
-if (!isset($_SESSION['email']) and !isset($_SESSION["kalastaja_id"])) {
-    header("Location: ../login/index.php");
-    exit();
-}
-// kun cookie häviää kirjaa käyttäjän ulos
-if(!isset($_COOKIE["login_token"])) {
-    // Poista kaikki istunnon muuttujat.
-    $_SESSION = array();
-    session_unset();
-    // tuhoaa istunnon.
-    session_destroy();
-    // Ohjaa käyttäjän takaisin kirjautumissivulle.
-    header("Location: ../login/index.php");
-    exit;
-}
+require_once __DIR__ . '/../data/db_connection.php';
 $lajit = array("ahven", "harjus", "hauki", "jokirapu", "kiiski", "kirjolohi", "kolmipiikki", "kuha", "kuore", "lahna", "lohi", "made", "muikku", "pasuri", "rautu", "ruutana", "salakka", "särki", "säyne", "siika", "silakka", "sorva", "suutari", "taimen", "täplärapu");
 $kysely_lajit = $conn->prepare("SELECT laji FROM laji");
 $kysely_lajit->execute();
@@ -135,9 +120,12 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         <li class="li" style="float: right;">
             <div style="display: flex; flex-direction:row;">
                 <?php
-                echo "<a class='a'>Terve, " . $_SESSION["nimi"]."</a>";
+                echo "<a class='a'>Terve, " . html($_SESSION["nimi"])."</a>";
                 ?>
-                <a class="logout" href="../data/handleLogout.php">Kirjaudu ulos</a>
+                <form action="../data/handleLogout.php" method="post">
+                    <input type="hidden" name="csrf_logout" value="<?php echo html($_SESSION['csrf_logout']) ?>">
+                    <button class="logout" type="submit">Kirjaudu ulos</button>
+                </form>
             </div>
         </li>
     </ul>
@@ -149,7 +137,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
             echo "<h2>Kalat painon mukaan</h2>";
             // haetaan dataa tietokannasta
             $rivien_maarat = 0;
-            $kysely_paino = $conn->prepare("SELECT aika, laji, paino, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY paino DESC;");
+            $kysely_paino = $conn->prepare("SELECT kala.id AS fish_id, aika, laji, paino, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY paino DESC;");
             $kysely_paino->bind_param("i", $kalastaja_id);
             $kysely_paino->execute();
             $data_paino = $kysely_paino->get_result();
@@ -167,9 +155,9 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     {
                         // check if user has uplouded picture if has showed
                         if ($rivi["kuva"] == null) {
-                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                            echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                         } else {
-                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                            echo "<img src='../data/image.php?id=" . html($rivi['fish_id']) . "' width='50' height='25'> ";
                         }
 
                     } else {
@@ -177,13 +165,13 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     }
                     if ($rivien_maarat == 1) {
                         // date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y") luodaan datetime ottamalla aika ja siitä luodaan datitime joka formatoidaan suomi muotoon
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥇".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥇".html($rivi["laji"]). " ".html($rivi["paino"])." kg"."<br/>";
                     } else if ($rivien_maarat == 2) {
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥈".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥈".html($rivi["laji"]). " ".html($rivi["paino"])." kg"."<br/>";
                     } else if ($rivien_maarat == 3) {
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥉".$rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥉".html($rivi["laji"]). " ".html($rivi["paino"])." kg"."<br/>";
                     } else {
-                        echo $rivi["laji"]. " ".$rivi["paino"]." kg"."<br/>";
+                        echo html($rivi["laji"]). " ".html($rivi["paino"])." kg"."<br/>";
                     }
                 }
             }    
@@ -197,7 +185,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
         echo "<div class='nayttaa'>";
             echo "<h2>Kalat pituuden mukaan</h2>";
             $rivien_maarat = 0;
-            $kysely_pituus = $conn->prepare("SELECT aika, laji, pituus, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY pituus DESC;");
+            $kysely_pituus = $conn->prepare("SELECT kala.id AS fish_id, aika, laji, pituus, kuva FROM kala, laji, tarppi WHERE kala.laji_id=laji.id AND tarppi.kalastaja_id= ? AND tarppi.id=kala.tarppi_id ORDER BY pituus DESC;");
             $kysely_pituus->bind_param("i", $kalastaja_id);
             $kysely_pituus->execute();
             $data_pituus = $kysely_pituus->get_result();
@@ -215,21 +203,21 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     {
                         // check if user has uplouded picture if has showed
                         if ($rivi["kuva"] == null) {
-                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
+                            echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                         } else {
-                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
+                            echo "<img src='../data/image.php?id=" . html($rivi['fish_id']) . "' width='50' height='25'> ";
                         }   
                     } else {
                         echo "🐟";
                     }
                     if ($rivien_maarat == 1) {
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥇".$rivi["laji"]. " ".$rivi["pituus"]." cm"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥇".html($rivi["laji"]). " ".html($rivi["pituus"])." cm"."<br/>";
                     } else if ($rivien_maarat == 2) {
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥈".$rivi["laji"]. " ".$rivi["pituus"]." cm"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥈".html($rivi["laji"]). " ".html($rivi["pituus"])." cm"."<br/>";
                     } else if ($rivien_maarat == 3) {
-                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥉".$rivi["laji"]. " ".$rivi["pituus"]." cm"."<br/>";
+                        echo " ".date_format(date_create(explode(" ", $rivi["aika"])[0]), "d.m.Y")."🥉".html($rivi["laji"]). " ".html($rivi["pituus"])." cm"."<br/>";
                     } else {
-                        echo $rivi["laji"]. " ".$rivi["pituus"]." cm"."<br/>";
+                        echo html($rivi["laji"]). " ".html($rivi["pituus"])." cm"."<br/>";
                     }
                 } 
             } 
@@ -261,15 +249,11 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                     if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                     {
                         // check if user has uplouded picture if has showed
-                        if ($rivi["kuva"] == null) {
-                            echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
-                        } else {
-                            echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
-                        }
+                        echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                     } else {
                         echo "🐟";
                     }
-                    echo $rivi["laji"]. " ".$rivi["maara"]." kpl"."<br/>";
+                    echo html($rivi["laji"]). " ".html($rivi["maara"])." kpl"."<br/>";
                 }
             }
             // jos tulos on nolla
@@ -296,7 +280,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                             break;
                         }        
                         // lisää rivin arrayhyn
-                        array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"], "kuva"=>$rivi["kuva"]));
+                        array_push($viehe, array("laji"=>$rivi["laji"], "viehe"=>$rivi["viehe"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
                     }
                 } 
@@ -311,15 +295,11 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
                     // check if user has uplouded picture if has showed
-                    if ($rivi["kuva"] == null) {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
-                    } else {
-                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
-                    }
+                    echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                 } else {
                     echo "🐟";
                 }
-                echo $rivi["laji"]. " ".$rivi["viehe"]. " ".$rivi["maara"]." kpl"."<br/>";
+                echo html($rivi["laji"]). " ".html($rivi["viehe"]). " ".html($rivi["maara"])." kpl"."<br/>";
             }
             // // jos tulos on nolla
             if ($rivien_maarat == 0) {
@@ -344,7 +324,7 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                             break;
                         }
                         // lisää rivin arrayhyn
-                        array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"], "kuva"=>$rivi["kuva"]));
+                        array_push($vapa, array("laji"=>$rivi["laji"], "vapa"=>$rivi["vapa"], "maara"=>$rivi["maara"]));
                         $rivien_maarat += 1;
                     }
                 } 
@@ -359,15 +339,11 @@ $kalastaja_id = $_SESSION["kalastaja_id"];
                 if (in_array($rivi["laji"], array_slice($lajit, 0,25)))
                 {
                     // check if user has uplouded picture if has showed
-                    if ($rivi["kuva"] == null) {
-                        echo "<img src='../kuvat/$lajiKuvaHaku.jpg' width='50' height='25'> ";   
-                    } else {
-                        echo "<img src='../data/uploads/$rivi[kuva]' width='50' height='25'> ";   
-                    }
+                    echo "<img src='../kuvat/" . html($lajiKuvaHaku) . ".jpg' width='50' height='25'> ";
                 } else {
                     echo "🐟";
                 }
-                echo $rivi["laji"]. " ".$rivi["vapa"]. " ".$rivi["maara"]." kpl"."<br/>";
+                echo html($rivi["laji"]). " ".html($rivi["vapa"]). " ".html($rivi["maara"])." kpl"."<br/>";
             }
             // jos tulos on nolla
             if ($rivien_maarat == 0) {

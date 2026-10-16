@@ -32,36 +32,11 @@ pip install -r requirements.txt
 # Tietokannan luonti
 
 ## Backend:
-Luo dbinfo.py backend nimiseen kansioon ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
-```
-data = {
-  "USER":'esimnerkki',
-  "PASSWORD":'esimnerkki',
-  "DBNIMI": 'esimnerkki',
-  "PORT": 1234,
-  "HOST": '123.1.2.3',
-} 
-```
 Aja databasen luonti:
 ```
 python createdb.py
 ```
 ## Frondend:
-Luo config.php data nimiseen kansioon ja laita sinne databasen yhdistämiseen tarvittavat tiedot:
-```
-return array(
-    "serverinnimi" => "esimnerkki",
-    "kayttajannimi" => "esimnerkki",
-    "salasana" => "esimnerkki",
-    "dbnimi" => "esimnerkki",
-);
-```
-
-# Ohjelman suorittaminen
-Flask ohjelma:
-```
-flask run --debug
-```
 
 # Sivu
 Huom: url saattaa olla hieman eri kun kloonat repositoryn.
@@ -70,6 +45,3 @@ PHP sivu:
 ```
 http://localhost/kalastustietosivu/frondend/
 ```
-
-# License
-Open source.

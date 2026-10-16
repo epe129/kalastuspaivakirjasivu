@@ -1,33 +1,23 @@
 <?php
-session_start();
+require_once __DIR__ . '/security.php';
 // yhteyden tietokantaan
-include_once('db_connection.php');
+require_once __DIR__ . '/db_connection.php';
 $name = $email = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // tarkistaa onko tokeni asetettu ja onko tokenit samatat session ja input saanissa
-    if (!isset($_POST['csrf_token_r']) || !isset($_SESSION['csrf_token_r']) || !hash_equals($_SESSION['csrf_token_r'], $_POST['csrf_token_r'])) {
-        die('CSRF token validation failed');
-    }
-  
-    // poistetaan tokeni
-    unset($_SESSION['csrf_token_r']);
+    verify_csrf('csrf_token_r');
 
     // ei aseta muuttujaa vasta kun jos tulee vastaan if lauseessa
     unset($_SESSION['errorMessageRegister']);
     unset($_SESSION['errorTextRegister']);
 
     // saa arvot
-    $name = stripslashes(trim(htmlspecialchars($_POST["name"])));
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
+    $name = post_string("name");
+    $email = post_string("email");
+    $password = post_string("password");
     
-    // hashaa salasanan
-    $hash_password = password_hash($password, PASSWORD_DEFAULT);
-
     // tarkistaa että email on valid
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (strlen($email) > 45 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $_SESSION["errorMessageRegister"] = true;
         $_SESSION['errorTextRegister'] = "Sähköposti ei ole kelvollinen";
         header("Location: ../rekisteroidy/index.php"); 
@@ -35,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // tarkistaa että nimi sisältää vaan kirjaimia ja numeroita
-    if (!preg_match("/^[a-zA-Z0-9äöåÄÖÅ]+$/u",$name)) {
+    if (strlen($name) > 45 || !preg_match("/^[a-zA-Z0-9äöåÄÖÅ]+$/u",$name)) {
         $_SESSION["errorMessageRegister"] = true;
         $_SESSION['errorTextRegister'] = "Nimi ei ole kelvollinen, vain numerot ja kirjaimet ovat salittuja";
         header("Location: ../rekisteroidy/index.php"); 
@@ -43,12 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // tarkistaa ettei salasana ole liian lyhyt
-    if (strlen($password) <=  7) {
+    if (strlen($password) < 8 || strlen($password) > 72) {
         $_SESSION["errorMessageRegister"] = true;
-        $_SESSION['errorTextRegister'] = "Salasanassa pitää olla vähintää 8 merkkiä";
+        $_SESSION['errorTextRegister'] = "Salasanan pituuden pitää olla 8–72 tavua";
         header("Location: ../rekisteroidy/index.php"); 
         exit;
     }
+    $hash_password = password_hash($password, PASSWORD_DEFAULT);
     
     // jos jokin arvo on tyhjä
     if (empty($name) or empty($email) or empty($password)) {
@@ -77,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute() === TRUE) {
         // jos rekisteröinti onnistuu.
         // luodaan uusi session id käyttäjälle
-        session_regenerate_id();
         header("Location: ../login/index.php"); 
         exit;
         } else {

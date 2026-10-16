@@ -1,26 +1,42 @@
-"""
-This script is used to add an admin user to the database. 
-It connects to the database using the credentials provided in the dbinfo module and
-creates a new admin user with the specified username and password.
-"""
-import pymysql
-import dbinfo
+"""Create an administrator account with a bcrypt password hash."""
+
+import getpass
+
 import bcrypt
+import pymysql
 
-connection = pymysql.connect(host=dbinfo.data["HOST"], port=dbinfo.data["PORT"], 
-user=dbinfo.data["USER"], password=dbinfo.data["PASSWORD"], database=dbinfo.data["DBNIMI"])
-cursor = connection.cursor()
+import dbinfo
 
-def add_admin(username, password):
-    """
-    Add a new admin to the database.
-    """
-    cursor.execute("INSERT INTO admin (username, pword) VALUES (%s, %s)", (username, password))
-    connection.commit()
+
+def main():
+    username = input("Enter the new admin's username: ").strip()
+    password = getpass.getpass("Enter the new admin's password: ")
+
+    if not username or len(username) > 45:
+        raise ValueError("Username must contain 1 to 45 characters.")
+    if not 12 <= len(password.encode("utf-8")) <= 72:
+        raise ValueError("Admin passwords must be between 12 and 72 bytes.")
+
+    password_hash = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+    connection = pymysql.connect(
+        host=dbinfo.data["HOST"],
+        port=dbinfo.data["PORT"],
+        user=dbinfo.data["USER"],
+        password=dbinfo.data["PASSWORD"],
+        database=dbinfo.data["DBNIMI"],
+        charset="utf8mb4",
+    )
+    try:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "INSERT INTO admin (username, pword) VALUES (%s, %s)",
+                (username, password_hash.decode("ascii")),
+            )
+        connection.commit()
+    finally:
+        connection.close()
     print(f"Admin '{username}' added successfully.")
 
+
 if __name__ == "__main__":
-    new_admin_username = input("Enter the new admin's username: ")
-    new_admin_password = input("Enter the new admin's password: ")
-    hashed_password = bcrypt.hashpw(new_admin_password.encode('utf-8'), bcrypt.gensalt())
-    add_admin(new_admin_username, hashed_password)
+    main()
